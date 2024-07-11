@@ -22,7 +22,9 @@ dependencies = [
     "rasterio",
     "pyscipopt",
     "torch",
-    "scikit-learn == 1.4.2",
+    "scikit-learn",
+    "skl2onnx",
+    "onnxruntime"
 ]
 requires-python = ">=3.6"
 keywords = ["IoT", "network", "planning"]

@@ -10,6 +10,7 @@ import numpy as np
 import pickle as pkl
 from importlib.resources import files
 from os import environ
+from onnxruntime import InferenceSession
 
 seed = 100
 np.random.seed(seed)
@@ -24,11 +25,11 @@ model_file = files("iot_net_planner").joinpath("prediction/ml_models/3features_i
 fac_file = environ['BROOKLYN_FAC']
 # File available at https://cornell.box.com/s/gihu98kc2o6l53oue9qfktvzmiy6jap5 named brooklyn_demands.geojson
 dem_file = environ['BROOKLYN_DEM']
-sc_file = files("iot_net_planner").joinpath("prediction/ml_models/brooklyn_sc_3.pkl")
+sc_file = files("iot_net_planner").joinpath("prediction/ml_models/brooklyn_sc_3.onnx")
 
 with open(sc_file, "rb") as f:
-    standard_scalar = pkl.load(f)
-print(standard_scalar)
+    onx = f.read()
+standard_scalar = InferenceSession(onx)
 
 sampler = SimplexSampler(seed)
 

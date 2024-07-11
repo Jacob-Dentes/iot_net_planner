@@ -6,7 +6,6 @@ from iot_net_planner.prediction.prr_model import PRRModel
 import numpy as np
 import torch
 import torch.nn as nn
-from sklearn.preprocessing import StandardScaler
 
 class LogisticRegression(nn.Module):
     def __init__(self, n_inputs, n_outputs):
@@ -30,7 +29,7 @@ class LogisticModel():
         x[:, 1] = los
         x[:, 2] = log_distance * los
         
-        x = self._sc.transform(x)
+        x = self._sc.run(None, {"X": x})[0]
         
         return self.model.forward(x).detach().numpy().flatten()
 

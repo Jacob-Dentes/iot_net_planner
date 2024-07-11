@@ -3,6 +3,7 @@ import numpy as np
 import pickle as pkl
 from importlib.resources import files
 from os import environ
+from onnxruntime import InferenceSession
 
 from iot_net_planner.optimization.bnp_model import BNPModel
 
@@ -25,10 +26,13 @@ dem_file = environ['GENEVA_DEM']
 utm = "EPSG:32618"
 
 model_file = files("iot_net_planner").joinpath("prediction/ml_models/3features_ithaca_LR_april3_prr.pth")
-sc_file = files("iot_net_planner").joinpath("prediction/ml_models/brooklyn_sc_3.pkl")
+sc_file = files("iot_net_planner").joinpath("prediction/ml_models/brooklyn_sc_3.onnx")
 
+# with open(sc_file, "rb") as f:
+#     standard_scalar = pkl.load(f)
 with open(sc_file, "rb") as f:
-    standard_scalar = pkl.load(f)
+    onx = f.read()
+standard_scalar = InferenceSession(onx)
 
 facs = gpd.read_file(fac_file).to_crs(utm)
 dems = gpd.read_file(dem_file).to_crs(utm)
