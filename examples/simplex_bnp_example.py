@@ -9,6 +9,7 @@ import geopandas as gpd
 import numpy as np
 import pickle as pkl
 from importlib.resources import files
+from os import environ
 
 seed = 100
 np.random.seed(seed)
@@ -16,8 +17,13 @@ ncols = 150
 nyc_crs = "epsg:2263"
 model_file = files("iot_net_planner").joinpath("prediction/ml_models/3features_ithaca_LR_april3_prr.pth")
 
-fac_file = "/Users/jacobdentes/IoT/network-planner-streamlined/nyc/nyc_gateways.geojson"
-dem_file = "/Users/jacobdentes/IoT/network-planner-2024/data/brooklyn_demands_full_outdoor.geojson"
+# File available at https://cornell.box.com/s/gihu98kc2o6l53oue9qfktvzmiy6jap5 named brooklyn_gateways.geojson
+# Do not forget to set the environment variable:
+# On Mac/Linux: https://askubuntu.com/questions/58814/how-do-i-add-environment-variables#58828
+# On Windows: https://www.howtogeek.com/787217/how-to-edit-environment-variables-on-windows-10-or-11/
+fac_file = environ['BROOKLYN_FAC']
+# File available at https://cornell.box.com/s/gihu98kc2o6l53oue9qfktvzmiy6jap5 named brooklyn_demands.geojson
+dem_file = environ['BROOKLYN_DEM']
 sc_file = files("iot_net_planner").joinpath("prediction/ml_models/brooklyn_sc_3.pkl")
 
 with open(sc_file, "rb") as f:

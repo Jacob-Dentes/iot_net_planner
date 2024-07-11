@@ -18,7 +18,9 @@ nyc_crs = "epsg:2263"
 model_file = files("iot_net_planner").joinpath("prediction/ml_models/3features_ithaca_LR_april3_prr.pth")
 
 # File available at https://cornell.box.com/s/gihu98kc2o6l53oue9qfktvzmiy6jap5 named brooklyn_gateways.geojson
-# Do not forget to set the environment variable: https://askubuntu.com/questions/58814/how-do-i-add-environment-variables#58828
+# Do not forget to set the environment variable:
+# On Mac/Linux: https://askubuntu.com/questions/58814/how-do-i-add-environment-variables#58828
+# On Windows: https://www.howtogeek.com/787217/how-to-edit-environment-variables-on-windows-10-or-11/
 fac_file = environ['BROOKLYN_FAC']
 # File available at https://cornell.box.com/s/gihu98kc2o6l53oue9qfktvzmiy6jap5 named brooklyn_demands.geojson
 dem_file = environ['BROOKLYN_DEM']

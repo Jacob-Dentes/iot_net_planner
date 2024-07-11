@@ -2,6 +2,7 @@ import geopandas as gpd
 import numpy as np
 import pickle as pkl
 from importlib.resources import files
+from os import environ
 
 from iot_net_planner.optimization.bnp_model import BNPModel
 
@@ -9,9 +10,17 @@ from iot_net_planner.prediction.prr_cache import CachedPRRModel
 from iot_net_planner.prediction.ml_models.los_model_3features import LOS3Features
 from iot_net_planner.geo.dsm_sampler import DSMSampler
 
-dsm_file = "/Users/jacobdentes/IoT/network-planner-2024/geneva/geneva-dsm.tif"
-fac_file = "/Users/jacobdentes/IoT/network-planner-2024/geneva/geneva_facilities.geojson"
-dem_file = "/Users/jacobdentes/IoT/network-planner-2024/geneva/geneva_demands.geojson"
+# File available at https://cornell.box.com/s/gihu98kc2o6l53oue9qfktvzmiy6jap5 named geneva-dsm.tif
+# Do not forget to set the environment variable
+# On Mac/Linux: https://askubuntu.com/questions/58814/how-do-i-add-environment-variables#58828
+# On Windows: https://www.howtogeek.com/787217/how-to-edit-environment-variables-on-windows-10-or-11/
+dsm_file = environ['GENEVA_DSM']
+# File available at https://cornell.box.com/s/gihu98kc2o6l53oue9qfktvzmiy6jap5 named geneva_gateways.geojson
+# Do not forget to set the environment variable as above
+fac_file = environ['GENEVA_FAC']
+# File available at https://cornell.box.com/s/gihu98kc2o6l53oue9qfktvzmiy6jap5 named geneva_demands.geojson
+# Do not forget to set the environment variable as above
+dem_file = environ['GENEVA_DEM']
 
 utm = "EPSG:32618"
 
