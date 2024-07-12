@@ -38,6 +38,8 @@ classifiers = [
     "Operating System :: OS Independent"
 ]
 
+packages = ["iot_net_planner"]
+
 [tool.hatch.build.targets.sdist]
 include = ["src/**"]
 
@@ -46,3 +48,6 @@ include = ["src/**"]
 
 [tool.hatch.metadata]
 allow-direct-references = true
+
+[tool.hatch.envs.default]
+paths = ["src"]
