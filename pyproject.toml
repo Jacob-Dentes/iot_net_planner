@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "iot-net-planner"
+name = "iot_net_planner"
 version = "0.1.0"
 description = "A package for IoT network planning"
 readme = "README.md"

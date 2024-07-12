@@ -30,7 +30,7 @@ class XG252Features(PRRModel):
         if dems is None:
             dems = self._all_dems
 
-        fac_start = False # When true the line segment originates from the facility
+        fac_start = False # When true the line segment originates from the facility, usually false
         if fac_start:
             fs, ds = (0, 1)
         else:
@@ -63,7 +63,7 @@ class XG252Features(PRRModel):
     @property
     def facs(self):
         return self._facs
-
+      
     def get_prr(self, fac, dems=None):
         if dems is None:
             dems = self._all_dems
