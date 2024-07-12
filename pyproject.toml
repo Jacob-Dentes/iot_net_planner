@@ -27,7 +27,8 @@ dependencies = [
     "onnxruntime",
     "statsmodels",
     "seaborn",
-    "xgboost"
+    "xgboost",
+    "contextily"
 ]
 requires-python = ">=3.6"
 keywords = ["IoT", "network", "planning"]

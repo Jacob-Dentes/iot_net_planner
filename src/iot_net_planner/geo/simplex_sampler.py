@@ -3,11 +3,12 @@ from opensimplex import seed, noise2
 from numpy import array
 
 class SimplexSampler(LinkSampler):
-    def __init__(self, random_seed):
+    def __init__(self, random_seed, scale=1.0):
+        self.scale = scale
         seed(random_seed)
 
     def sample(self, x, y):
-        value = noise2(x, y)
+        value = noise2(self.scale * x, self.scale * y)
         return value
 
     def batched_sample(self, xs, ys):
