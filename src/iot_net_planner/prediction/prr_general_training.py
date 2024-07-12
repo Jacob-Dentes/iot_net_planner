@@ -20,6 +20,7 @@ from pickle import dump
 from sklearn.metrics import f1_score
 import statsmodels.api as sm
 import xgboost as xgb
+from skl2onnx import to_onnx
 
 def file_names(path):
     dirs = os.listdir(path)
@@ -328,8 +329,12 @@ y_train = np.concatenate(combined_y_train)
 
 sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
-with open(out + 'scaler_model.pkl', 'wb') as f:
-    dump(sc, f)
+onx = to_onnx(sc, X_train[:1].astype(np.double))
+with open(out + "scaler_model.onnx", "wb") as f:
+    f.write(onx.SerializeToString())
+
+# with open(out + 'scaler_model.pkl', 'wb') as f:
+#     dump(sc, f)
 
 y_train = [int(i) for i in y_train]
 y_train = np.array(y_train)
