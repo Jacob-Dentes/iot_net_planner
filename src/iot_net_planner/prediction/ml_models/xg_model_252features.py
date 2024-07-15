@@ -58,8 +58,8 @@ class XG252FeaturesInput():
     def get_input(self, fac, dems=None):
         if dems is None:
             dems = self._all_dems
-        distances = np.log(self._dems[dems].distance(self._facs.geometry[fac]).to_numpy())
-        heights = np.log(np.absolute(self._dems['altitude'][dems] - self._facs['altitude'][fac]))
+        distances = np.log(0.01 + self._dems[dems].distance(self._facs.geometry[fac]).to_numpy())
+        heights = np.log(0.01 + np.absolute(self._dems['altitude'][dems] - self._facs['altitude'][fac]))
 
         samples, args = self._generate_sample_points(fac, dems)
         samples = self._sampler.batched_sample(samples[:, 0], samples[:, 1])
