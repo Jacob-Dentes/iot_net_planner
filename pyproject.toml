@@ -28,7 +28,8 @@ dependencies = [
     "statsmodels",
     "seaborn",
     "xgboost",
-    "contextily"
+    "contextily",
+    "fiona"
 ]
 requires-python = ">=3.6"
 keywords = ["IoT", "network", "planning"]
