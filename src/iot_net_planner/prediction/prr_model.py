@@ -66,12 +66,14 @@ class PRRModel(ABC):
         """
         pass
 
-    def save_prrs(self, filepath):
+    def save_prrs(self, filepath, logging=False):
         """
         Saves all prrs to a numpy saved file at filepath. The file
         will contain a len(dems) x len(facs) matrix where the 
 
         :param filepath: the file to save to
+
+        :param logging: whether or not to log progress
 
         :returns: a 2d numpy array with shape (len(dems), len(facs))
         where entry index (i, j) is the prr to the demand point i
@@ -79,6 +81,8 @@ class PRRModel(ABC):
         """
         A = np.empty((len(self.dems), len(self.facs)))
         for fac in range(A.shape[1]):
+            if logging:
+                print(f" {fac+1} / {A.shape[1]}", end="\r")
             A[:, fac] = self.get_prr(fac)
         np.save(filepath, A)
         
