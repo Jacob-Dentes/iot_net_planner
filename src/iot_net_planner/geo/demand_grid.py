@@ -67,7 +67,8 @@ def generate_grid(area_file, granularity, sampler=None, utm=None):
 
     dems = _make_grid(area_frame, granularity)
 
-    dems = add_alts(dems, sampler)
+    if sampler is not None:
+        dems = add_alts(dems, sampler)
 
     return dems
 
@@ -97,7 +98,9 @@ def generate_grid_with_points(area_file, target_points, sampler=None, utm=None):
     hi_granularity = 0.25 * min(maxx - minx, maxy - miny)
     hi_dems = _make_grid(area_frame, hi_granularity)
     if len(hi_dems) >= target_points:
-        return add_alts(hi_dems, sampler)
+        if sampler is not None:
+            return add_alts(hi_dems, sampler)
+        return hi_dems
 
     lo_granularity = 0.5 * hi_granularity
     lo_dems = _make_grid(area_frame, lo_granularity)
@@ -120,5 +123,8 @@ def generate_grid_with_points(area_file, target_points, sampler=None, utm=None):
 
     mid_granularity = (lo_granularity + hi_granularity) / 2
     mid_dems = _make_grid(area_frame, mid_granularity)
-    
-    return add_alts(mid_dems, sampler)
+
+    if sampler is not None:
+        return add_alts(mid_dems, sampler)
+
+    return mid_dems
