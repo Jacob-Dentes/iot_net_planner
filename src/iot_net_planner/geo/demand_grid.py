@@ -29,11 +29,18 @@ def _make_grid(area_frame, granularity):
     dems = gpd.GeoDataFrame(geometry=points, crs=area_frame.crs)
     return dems[dems.geometry.apply(lambda point: any(area_frame.contains(point)))]
 
-def _set_alts(dems, sampler=None):
-    # Set altitudes
-    if sampler is not None:
-        samples = sampler.batched_sample(dems.geometry.x, dems.geometry.y)
-        dems['altitude'] = np.array(samples)
+def add_alts(dems, sampler):
+    """
+    Add altitudes to a demand GeoDataFrame
+
+    :param dems: the GeoDataFrame to add altitudes to, may be modified in place
+
+    :param sampler: the sampler to use to determine the altitudes
+
+    :returns: the modified GeoDataFrame
+    """
+    samples = sampler.batched_sample(dems.geometry.x, dems.geometry.y)
+    dems['altitude'] = np.array(samples)
 
     return dems
 
@@ -60,7 +67,7 @@ def generate_grid(area_file, granularity, sampler=None, utm=None):
 
     dems = _make_grid(area_frame, granularity)
 
-    dems = _set_alts(dems, sampler)
+    dems = add_alts(dems, sampler)
 
     return dems
 
@@ -90,7 +97,7 @@ def generate_grid_with_points(area_file, target_points, sampler=None, utm=None):
     hi_granularity = 0.25 * min(maxx - minx, maxy - miny)
     hi_dems = _make_grid(area_frame, hi_granularity)
     if len(hi_dems) >= target_points:
-        return _set_alts(hi_dems, sampler)
+        return add_alts(hi_dems, sampler)
 
     lo_granularity = 0.5 * hi_granularity
     lo_dems = _make_grid(area_frame, lo_granularity)
@@ -114,4 +121,4 @@ def generate_grid_with_points(area_file, target_points, sampler=None, utm=None):
     mid_granularity = (lo_granularity + hi_granularity) / 2
     mid_dems = _make_grid(area_frame, mid_granularity)
     
-    return _set_alts(mid_dems, sampler)
+    return add_alts(mid_dems, sampler)

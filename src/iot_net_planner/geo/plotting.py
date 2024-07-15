@@ -21,3 +21,12 @@ def plot_fac_coverage(dems, facs, fac, contributions):
     cbar.set_label('Contributions')
     
     plt.show()
+
+def plot_demands(dems):
+    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+
+    dems.plot(ax=ax, color='magenta', alpha=0.3)
+    
+    ctx.add_basemap(ax, crs=dems.crs.to_string())
+
+    plt.show()
