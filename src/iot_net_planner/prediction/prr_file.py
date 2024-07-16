@@ -23,7 +23,7 @@ class FileModel(PRRModel):
     def get_prr(self, fac, dems=None):
         if dems is None:
             dems = self._all_dems
-        return self._prrs[fac, dems]
+        return self._prrs[dems, fac]
 
     def get_prr_ub(self, fac, dems=None):       
         return self.get_prr(fac, dems)
