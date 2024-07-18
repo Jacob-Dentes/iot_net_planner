@@ -14,7 +14,7 @@ class LRModel():
 
     def forward(self, X):
         X = self._sc.run(None, {"X": X})[0]
-        X = sm.add_constant(X)
+        X = sm.add_constant(X, has_constant='add')
         return self.model.predict(X)
 
 class LR252FeaturesInput():
