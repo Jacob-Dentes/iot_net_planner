@@ -4,7 +4,7 @@ A prr implementation for the log(distance), los, log(distance) * los model
 from iot_net_planner.prediction.prr_model import PRRModel
 
 import numpy as np
-from statsmodels.iolib.smpickle.load_pickle as load_model
+from statsmodels.iolib.smpickle import load_pickle as load_model
 import statsmodels.api as sm
 
 class LRModel():
