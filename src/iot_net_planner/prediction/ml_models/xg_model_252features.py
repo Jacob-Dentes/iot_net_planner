@@ -5,6 +5,7 @@ from iot_net_planner.prediction.prr_model import PRRModel
 
 import numpy as np
 from xgboost import Booster, DMatrix
+import statsmodels.api as sm
 
 class XGModel():
     def __init__(self, path, sc, n_inputs=252):
@@ -14,6 +15,7 @@ class XGModel():
 
     def forward(self, X):
         X = self._sc.run(None, {"X": X})[0]
+        X = sm.add_constant(X, has_constant='add')
         dmat = DMatrix(X)
         return self.model.predict(dmat)
 
