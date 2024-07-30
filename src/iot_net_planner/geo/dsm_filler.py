@@ -1,3 +1,7 @@
+"""
+A tool for filling holes in a DSM using interpolation
+"""
+
 import rasterio
 import numpy as np
 from rasterio.fill import fillnodata
@@ -10,7 +14,7 @@ def fill_file(input_file, output_file, band, threshold=-9000):
 
     :param output_file: the path to save the modified DSM
 
-    :param band: the band number to modify from the DSM
+    :param band: the 1-indexed band number to modify from the DSM
 
     :param threshold: values below this threshold will be interpolated
     """
@@ -21,6 +25,7 @@ def fill_file(input_file, output_file, band, threshold=-9000):
         filled_band = fillnodata(file_band, mask=mask, max_search_distance=100.0, smoothing_iterations=0)
     
         profile = src.profile
+        profile.update(count=1)
         with rasterio.open(output_file, 'w', **profile) as dst:
             dst.write(filled_band, 1)
 

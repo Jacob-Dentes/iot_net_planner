@@ -1,3 +1,7 @@
+"""
+A module for creating a grid of demand points over an area file
+"""
+
 import geopandas as gpd
 from shapely.geometry import Point
 import pandas as pd
@@ -7,6 +11,7 @@ import fiona
 supported_drivers['LIBKML'] = 'r'
 supported_drivers['KML'] = 'r'
 
+# Loads an area kml file. puts all layers into one GeoDataFrame
 def _load_file(area_file, utm=None):
     # Load the KML file
     layers = list(fiona.listlayers(area_file))
@@ -18,6 +23,8 @@ def _load_file(area_file, utm=None):
 
     return area_frame
 
+# Create a 2D array of points where each point is 
+# granularity units above, below, to the left, and to the right
 def _make_grid(area_frame, granularity):
     # Generate points
     minx, miny, maxx, maxy = area_frame.total_bounds
@@ -47,19 +54,19 @@ def add_alts(dems, sampler):
 def generate_grid(area_file, granularity, sampler=None, utm=None):
     """
     Generates a grid of demand points in the area defined by area_file
-    with the number of points defined by granularity
+    with the number of points determined by granularity
 
     :param area_file: a string path to a kml file representing the area to
     put demand points
 
     :param granularity: a float, one point will be placed every granularity
-    meters
+    units, where units are the distance in the area_file's crs or supplied utm
 
     :param sampler: a geo sampler to use to fill the altitude column.
     If left None there will be no altitude column
 
-    :param utm: a crs for the area. If none is provided then the area_file's
-    crs is used, which may mean that granularity will no longer be meters
+    :param utm: a crs for the area. If None is provided then the area_file's
+    crs is used, which may mean that granularity will be strange units
 
     :returns: a GeoDataFrame of the demand points
     """
@@ -86,7 +93,6 @@ def generate_grid_with_points(area_file, target_points, sampler=None, utm=None):
 
     :param utm: a crs for the area. If none is provided then the area_file's
     crs is used, which may mean that granularity will no longer be meters
-
     
     :returns: a GeoDataFrame of the demand points
     """
@@ -95,19 +101,24 @@ def generate_grid_with_points(area_file, target_points, sampler=None, utm=None):
 
     # Generate points
     minx, miny, maxx, maxy = area_frame.total_bounds
+    
+    # Generate a grid with very few points
     hi_granularity = 0.25 * min(maxx - minx, maxy - miny)
     hi_dems = _make_grid(area_frame, hi_granularity)
+    # If the few points grid is still too many, just return the few
     if len(hi_dems) >= target_points:
         if sampler is not None:
             return add_alts(hi_dems, sampler)
         return hi_dems
 
+    # Generate grids with progressively more points until it exceeds the target
     lo_granularity = 0.5 * hi_granularity
     lo_dems = _make_grid(area_frame, lo_granularity)
     while len(lo_dems) <= target_points:
         lo_granularity *= 0.5
         lo_dems = _make_grid(area_frame, lo_granularity)
 
+    # Binary search between the few and the many point grids
     while len(hi_dems) + tolerance <= len(lo_dems):
         mid_granularity = (lo_granularity + hi_granularity) / 2
         mid_dems = _make_grid(area_frame, mid_granularity)
