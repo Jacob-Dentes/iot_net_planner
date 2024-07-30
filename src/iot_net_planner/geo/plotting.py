@@ -1,5 +1,6 @@
 import geopandas as gpd
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import numpy as np
 import contextily as ctx
 
@@ -8,10 +9,12 @@ def plot_fac_coverage(dems, facs, fac, contributions):
     
 def plot_facs_coverage(dems, facs, built, contributions):
     contributions = contributions.clip(0.0, 1.0)
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+    fig, ax = plt.subplots(1, 1, figsize=(8, 8))
 
     norm = plt.Normalize(vmin=0.0, vmax=1.0)
-    cmap = plt.cm.Reds
+   
+    colors = [(1, 0, 0), (1, 1, 0), (0, 1, 0)]  # Red to Yellow to Green
+    cmap = mcolors.LinearSegmentedColormap.from_list('RedYellowGreen', colors)
 
     dems.plot(ax=ax, color=cmap(norm(contributions)), alpha=0.3)
     facs.iloc[built].plot(ax=ax, color='magenta', alpha=1.0)
