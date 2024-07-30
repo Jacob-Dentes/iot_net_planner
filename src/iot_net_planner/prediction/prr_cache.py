@@ -3,16 +3,18 @@ Adds a caching layer to a prr model
 
 Also provides an improve ub method
 """
+
 from iot_net_planner.prediction.prr_model import PRRModel
 import numpy as np
 
 class CachedPRRModel(PRRModel):
     def __init__(self, model):
         """
-        Wraps a PRRModel. Adds a caching layer to avoid regenerating prrs
-        Also provides an improve_ub method for incrementally improving upper bounds
+        Wraps a PRRModel. Adds a caching layer to avoid regenerating prrs.
+        Also provides an improve_ub method for incrementally improving upper bounds.
+        See PRRModel for other method documentation.
 
-        :param model: the PRRModel to wrap a cache around
+        :param model: the PRRModel instance to wrap a cache around
         """
         self._model = model
         self._prrs = np.zeros((len(self.dems), len(self.facs)))
@@ -20,6 +22,9 @@ class CachedPRRModel(PRRModel):
         self._all_dems = np.full(len(self.dems), True)
 
     def get_prr(self, fac, dems=None):
+        """
+        See the corresponding method from PRRModel
+        """
         if dems is None:
             dems = self._all_dems
         in_cache = self._incache[:, fac]
@@ -37,6 +42,9 @@ class CachedPRRModel(PRRModel):
         return prr
 
     def get_prr_ub(self, fac, dems=None):       
+        """
+        See the corresponding method from PRRModel
+        """
         if dems is None:
             dems = self._all_dems
         in_cache = self._incache[:, fac]
@@ -52,6 +60,9 @@ class CachedPRRModel(PRRModel):
         return ub
 
     def get_prr_lb(self, fac, dems=None):
+        """
+        See the corresponding method from PRRModel
+        """
         if dems is None:
             dems = self._all_dems
         in_cache = self._incache[:, fac]
@@ -68,10 +79,16 @@ class CachedPRRModel(PRRModel):
 
     @property
     def dems(self):
+        """
+        See the corresponding method from PRRModel
+        """
         return self._model.dems
 
     @property
     def facs(self):
+        """
+        See the corresponding method from PRRModel
+        """
         return self._model.facs
 
     def improve_ub(self, fac, quantile):

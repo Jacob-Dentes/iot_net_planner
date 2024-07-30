@@ -1,16 +1,22 @@
 """
-An abstract class for a PRR model 
+A module containing an abstract class for predicting packet reception rates
 """
+
 from abc import ABC, abstractmethod
 import numpy as np
 
 class PRRModel(ABC):
+    """
+    An abstract class for a PRR model to predict packet 
+    reception rate between a gateway and demand point 
+    """
     @abstractmethod
     def get_prr(self, fac, dems=None):
         """
         Get the exact prrs between fac and the self.dems[dems]  
 
         :param fac: the facility to generate prrs from
+
         :param dems: a boolean numpy array with length equal to the
         number of demand points, dems[i] == True means to generate 
         the prrs to demand point i
@@ -26,12 +32,14 @@ class PRRModel(ABC):
         Get an upper bound on prrs between fac and the self.dems[dems]  
 
         :param fac: the facility to generate prrs from
+
         :param dems: a boolean numpy array with length equal to the
         number of demand points, dems[i] == True means to generate 
         an upper bound on prrs to demand point i
 
         :returns: a numpy array with length dems.sum() of the prr
-        upper bounds to each of the demand points where dems[i]
+        upper bounds to each of the demand points where dems[i].
+        This means that self.get_prr_ub(fac) >= self.get_prr(fac)
         """
         pass
 
@@ -41,12 +49,14 @@ class PRRModel(ABC):
         Get a lower bound on prrs between fac and the self.dems[dems]  
 
         :param fac: the facility to generate prrs from
+
         :param dems: a boolean numpy array with length equal to the
         number of demand points, dems[i] == True means to generate 
         a lower bound on prrs to demand point i
 
         :returns: a numpy array with length dems.sum() of the prr
-        lower bounds to each of the demand points where dems[i]
+        lower bounds to each of the demand points where dems[i].
+        This means that self.get_prr_lb(fac) <= self.get_prr(fac)
         """
         pass
 
@@ -69,7 +79,8 @@ class PRRModel(ABC):
     def save_prrs(self, filepath, logging=False):
         """
         Saves all prrs to a numpy saved file at filepath. The file
-        will contain a len(dems) x len(facs) matrix where the 
+        will contain a len(dems) x len(facs) matrix where the entry
+        at [i, j] contains the prr from gateway j to demand point i
 
         :param filepath: the file to save to
 

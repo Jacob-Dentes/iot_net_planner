@@ -6,11 +6,12 @@ import numpy as np
 
 def get_coverages(sol, prr):
     """
-    Returns the coverage for building indices `sol` as predicted by `prr`
+    Returns the coverage for building indices sol as predicted by prr
 
     :param sol: an iterable of indices into prr indicating what to build
 
-    :param prr: a prr model initialized with demand points and facilities indexed in the same way as sol
+    :param prr: a prr model initialized with demand points and facilities
+    indexed in the same way as sol
 
     :returns: a numpy array of the coverage for each demand point
     """
@@ -34,7 +35,8 @@ def get_coverage_scalar(sol, prr, min_weight=0.0):
 
     :param sol: an iterable of indices into prr indicating what to build
 
-    :param prr: a prr model initialized with demand points and facilities indexed in the same way as sol
+    :param prr: a prr model initialized with demand points and facilities
+    indexed in the same way as sol
 
     :param min_weight: returns (average coverage) * (1 - min_weight) + (worst coverage) * (min_weight).
     The default is 0.0, meaning only the predicted average is returned
