@@ -5,6 +5,8 @@ the log of the absolute altitude difference, and a constant
 """
 import numpy as np
 import statsmodels.api as sm
+import geopandas as gpd
+from shapely.geometry import Point
 
 class ML253FeaturesInput():
     """
@@ -87,3 +89,74 @@ class ML253FeaturesInput():
         X[:, -1] = heights
 
         return sm.add_constant(X, has_constant='add')
+
+def make_traindata(link_file, sampler, x_out, y_out, crs=None, logging=False):
+    """
+    Create and save training data for a given training dataset
+
+    :param link_file: a path to a GeoDataFrame containing the data.
+    The geometry should be 2-point Shapely linestrings where 
+    the first point of each linestring is the transmission 
+    location and the second point of each linestring is the 
+    receiver location. There should be an 'ele_tr' field giving
+    the altitude of the transmission and an 'ele_gw' field with
+    the altitude of the receiver. There should be a 'success'
+    field that is an '0' if the transmission failed and a '1'
+    if the transmission succeeded.
+
+    :param sampler: a geo.sampler instance with the same units
+    of altitude as ele_tr and ele_gw
+
+    :param x_out: the path to put the training inputs. The file
+    should be a '.npy' file, and this extension will be appended
+    if it is not present
+
+    :param y_out: the path to put the training outputs. The file
+    should be a '.npy' file, and this extension will be appended
+    if it is not present
+
+    :param crs: a coordinate reference system to use, should be
+    a utm. Defaults to None, which means to use the link_file's crs.
+    To find a utm, look into GeoDataFrame.estimate_utm_crs
+
+    :param logging: boolean representing if progress should be 
+    printed defaults to False
+    """
+    def ends_in(s, ending):
+        return s[-1*len(ending):] == ending
+
+    x_out += (not ends_in(x_out, ".npy")) * ".npy"
+    y_out += (not ends_in(y_out, ".npy")) * ".npy"
+
+    links = gpd.read_file(link_file)
+    if crs is None:
+        crs = links.crs
+    links = links.to_crs(crs)
+
+    first_pt = lambda line: Point(line.coords[0])
+    second_pt = lambda line: Point(line.coords[1])
+
+    dems = gpd.GeoDataFrame(geometry=gpd.GeoSeries([first_pt(i) for i in links.geometry]), crs=crs)
+    dems['altitude'] = links['ele_tr']
+    facs = gpd.GeoDataFrame(geometry=gpd.GeoSeries([second_pt(i) for i in links.geometry]), crs=crs)
+    facs['altitude'] = links['ele_gw']
+
+    X = np.empty((len(links), 253))
+    y = np.array([int(i) for i in links['success']])
+
+    input_gen = XG253FeaturesInput(dems, facs, sampler)
+
+    for i in range(len(links)):
+        if logging:
+            print(f"{i+1} / {len(links)}", end="\r")
+        dem_choice = np.full(len(dems), False)
+        dem_choice[i] = True
+        X[i] = input_gen.get_input(i, dem_choice)[0]
+    
+    finite_mask = np.isfinite(X)
+    finite_rows = np.all(finite_mask, axis=1)
+    X = X[finite_rows]
+    y = y[finite_rows]
+
+    np.save(x_out, X)
+    np.save(y_out, y)
