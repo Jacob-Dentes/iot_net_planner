@@ -1,7 +1,7 @@
 from iot_net_planner.geo.simplex_sampler import SimplexSampler
 
 from iot_net_planner.prediction.prr_cache import CachedPRRModel
-from iot_net_planner.prediction.ml_models.xg_model_252features import XG252Features
+from iot_net_planner.prediction.xg_253features import XG253Features
 
 from iot_net_planner.geo.plotting import plot_fac_coverage
 
@@ -43,7 +43,7 @@ facs['altitude'] = np.array([sampler.sample(x, y) for x, y in zip(facs.geometry.
 facs['altitude'] += np.random.uniform(0.0, facs['altitude'].max(), len(facs))
 dems['altitude'] = np.array([sampler.sample(x, y) for x, y in zip(dems.geometry.x, dems.geometry.y)])
 
-prr = CachedPRRModel(XG252Features(dems, facs, sampler, model_file, standard_scalar))
+prr = CachedPRRModel(XG253Features(dems, facs, sampler, model_file, standard_scalar))
 
 print(f"Loaded instance with {len(facs)} potential gateways and {len(dems)} demand points.")
 to_0 = prr.get_prr(0)

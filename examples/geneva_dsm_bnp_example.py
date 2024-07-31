@@ -28,8 +28,6 @@ utm = "EPSG:32618"
 model_file = files("iot_net_planner").joinpath("prediction/ml_models/3features_ithaca_LR_april3_prr.pth")
 sc_file = files("iot_net_planner").joinpath("prediction/ml_models/brooklyn_sc_3.onnx")
 
-# with open(sc_file, "rb") as f:
-#     standard_scalar = pkl.load(f)
 with open(sc_file, "rb") as f:
     onx = f.read()
 standard_scalar = InferenceSession(onx)
@@ -40,12 +38,11 @@ dems = gpd.read_file(dem_file).to_crs(utm)
 facs['cost'] = np.ones(len(facs))
 facs['built'] = np.zeros(len(facs))
 
-sampler = DSMSampler(dems, facs, dsm_file)
-prr = CachedPRRModel(LOS3Features(dems, facs, sampler, model_file, standard_scalar))
+with DSMSampler(dems.crs, dsm_file) as sampler:
+    prr = CachedPRRModel(LOS3Features(dems, facs, sampler, model_file, standard_scalar))
 
-print(f"Loaded instance with {len(facs)} potential gateways and {len(dems)} demand points.")
+    print(f"Loaded instance with {len(facs)} potential gateways and {len(dems)} demand points.")
 
-print("Running BNP...")
-print(BNPModel.solve_coverage(5.0, 0.1, dems, facs, prr, qinc=0.8, logging=True))
+    print("Running BNP...")
+    print(BNPModel.solve_coverage(5.0, 0.1, dems, facs, prr, qinc=0.8, logging=True))
 
-sampler.clean_up()

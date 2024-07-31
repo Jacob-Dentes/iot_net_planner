@@ -16,7 +16,7 @@ class LRModel():
         X = self._sc.run(None, {"X": X})[0]
         return self.model.predict(X)
 
-class LR252Features(PRRModel):
+class LR253Features(PRRModel):
     def __init__(self, dems, facs, sampler, model_path, standard_scalar, ncols=250):
         self._input_gen = ML253FeaturesInput(dems, facs, sampler, ncols)
         self._dems = dems

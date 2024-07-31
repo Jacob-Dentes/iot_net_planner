@@ -22,7 +22,7 @@ def fill_file(input_file, output_file, band, threshold=-9000):
         file_band = src.read(band)
     
         mask = file_band >= threshold   
-        filled_band = fillnodata(file_band, mask=mask, max_search_distance=100.0, smoothing_iterations=0)
+        filled_band = fillnodata(file_band, mask=mask, max_search_distance=10_000.0, smoothing_iterations=0)
     
         profile = src.profile
         profile.update(count=1)

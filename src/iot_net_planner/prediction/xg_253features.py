@@ -18,7 +18,7 @@ class XGModel():
         dmat = DMatrix(X)
         return self.model.predict(dmat)
 
-class XG252Features(PRRModel):
+class XG253Features(PRRModel):
     def __init__(self, dems, facs, sampler, model_path, standard_scalar, ncols=250):
         self._input_gen = ML253FeaturesInput(dems, facs, sampler, ncols)
         self._dems = dems
