@@ -144,7 +144,7 @@ def make_traindata(link_file, sampler, x_out, y_out, crs=None, logging=False):
     X = np.empty((len(links), 253))
     y = np.array([int(i) for i in links['success']])
 
-    input_gen = XG253FeaturesInput(dems, facs, sampler)
+    input_gen = ML253FeaturesInput(dems, facs, sampler)
 
     for i in range(len(links)):
         if logging:

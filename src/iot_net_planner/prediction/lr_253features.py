@@ -6,6 +6,8 @@ from iot_net_planner.prediction.ml_253_input import ML253FeaturesInput
 
 import numpy as np
 from statsmodels.iolib.smpickle import load_pickle as load_model
+from sklearn.preprocessing import StandardScaler
+from skl2onnx import to_onnx
 import statsmodels.api as sm
 
 class LRModel():

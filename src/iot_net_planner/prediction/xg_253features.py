@@ -4,6 +4,8 @@ An implementation for an xgboost ML model with 253 inputs
 from iot_net_planner.prediction.prr_model import PRRModel
 from iot_net_planner.prediction.ml_253_input import ML253FeaturesInput
 
+from sklearn.preprocessing import StandardScaler
+from skl2onnx import to_onnx
 import numpy as np
 import xgboost as xgb
 
@@ -74,7 +76,6 @@ def train_xg_253_model(X_train, y_train, sc_out, xg_out, num_round=1000):
     sc_out += (not ends_in(sc_out, ".onnx")) * ".onnx"
     xg_out += (not ends_in(xg_out, ".json")) * ".json"
 
-    
     sc = StandardScaler()
     X_train = sc.fit_transform(X_train)
     onx = to_onnx(sc, X_train[:1].astype(np.double))
