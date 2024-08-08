@@ -5,11 +5,24 @@ A set of tools written in Python for planning an [IoT network](https://blogs.cor
 - [Gateway](https://blogs.cornell.edu/iotnetwork/how-do-you-set-a-network-up/gateway-set-up/) placement optimization
 
 ## Installation
+
+### Python Users
 For users with knowledge about Python, to install the package:
 - Clone the repository
 - Navigate to the directory containing src
 - (Optional) Create and activate a new Python [virtual environment](https://docs.python.org/3/library/venv.html)
-- Run `pip install -e .` to install the package in edit mode
+- Run `pip install -e .` to install the package in edit mode. **You may need to add the "src" directory to PYTHONPATH**.
+
+### Non-Python Users
+For users without knowledge of Python, to install the package:
+1. [Install Python](https://realpython.com/installing-python/)
+1. Download the repository here by clicking the green "<> Code" button and clicking "Download ZIP"
+1. Extract the zip
+1. Navigate to the unzipped directory in a command prompt
+1. Create a [Python environment](https://docs.python.org/3/library/venv.html) with the command `python3 -m venv iotvenv`
+1. Activate the environment with `source iotvenv/bin/activate`
+1. Install the package with `pip install .`
+1. Note that if you close the command prompt, you need to perform steps 4. and 6. again when opening a new prompt
 
 ## Usage
 Documentation is in its early stages. For now, the examples directory provides usage examples.
