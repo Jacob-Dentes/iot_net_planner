@@ -15,7 +15,11 @@ For users with knowledge about Python, to install the package:
 Documentation is in its early stages. For now, the examples directory provides usage examples.
 
 ### DSM Creation
-A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_model)) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. For municipalities in the United States, the [United States Geological Survery](https://www.usgs.gov/) (USGS) provides free Lidar data for creating a DSM. 
+A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_model)) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. As an example, here is an aspect render for a DSM created for an area around Ithaca, New York:
+
+![Image showing an aspect render](https://i.imgur.com/Q1ALz0z.jpeg)
+
+The rest of this DSM Creation section will cover how you could create a DSM for that area. The method will work for most of the United States. For municipalities in the United States, the [United States Geological Survery](https://www.usgs.gov/) (USGS) provides free Lidar data for creating a DSM. 
 
 To create a DSM using USGS data, head to the [USGS Lidar Explorer](https://apps.nationalmap.gov/lidar-explorer/#/). In the menu on the right, click the box next to "Show where Lidar is available" to see if coverage is available in your area.
 
@@ -41,9 +45,11 @@ The process may take a long time, especially for high resolutions or large areas
 
 ![Image showing a completed request menu on the USGS website](https://i.imgur.com/wn6CUNL.png)
 
-The resulting DSM may still have small holes to fill. It will likely look something like this:
+The resulting DSM may still have small holes to fill. For example, here is a DSM of Ithaca before filling (it corresponds to the aspect render from the start of the section):
 
 ![Image showing a DSM with holes](https://i.imgur.com/8JKHxpZ.png)
+
+After filling, the DSM now looks like this:
 
 ![Image showing a filled DSM](https://i.imgur.com/7oD3JX2.png)
 
