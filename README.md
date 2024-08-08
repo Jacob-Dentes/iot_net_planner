@@ -25,7 +25,9 @@ For users without knowledge of Python, to install the package:
 1. Note that if you close the command prompt, you need to perform steps 4. and 6. again when opening a new prompt
 
 ## Usage
-Documentation is in its early stages. For now, the examples directory provides usage examples.
+Documentation is in its early stages. The documented pipeline stages are:
+- [DSM Creation](#dsm-creation)
+- [Defining a Coverage Area](#creating-coverage-area)
 
 ### DSM Creation
 A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_model)) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. As an example, here is an aspect render for a DSM created for an area around Ithaca, New York:
