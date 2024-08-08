@@ -4,7 +4,7 @@ import sys
 def main(original, new, band=1):
     fill_file(original, new, band)
 
-def __main__():
+if __name__ == "__main__":
     args = list(sys.argv[1:])
 
     if len(args) == 3:
@@ -13,4 +13,3 @@ def __main__():
         main(args[0], args[1])
     else:
         print("Incorrect number of arguments. Expected old_dsm new_dsm")
-    
