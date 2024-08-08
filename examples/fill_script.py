@@ -2,7 +2,7 @@ from iot_net_planner.geo.dsm_filler import fill_file
 import sys
 
 def main(original, new, band=1):
-    fill_file(original, new)
+    fill_file(original, new, band)
 
 def __main__():
     args = list(sys.argv[1:])
