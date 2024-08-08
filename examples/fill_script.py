@@ -1,5 +1,7 @@
-from iot_net_planner.geo.dsm_filler import fill_file
+from make_pypath import pathify
+pathify() 
 import sys
+from iot_net_planner.geo.dsm_filler import fill_file
 
 def main(original, new, band=1):
     fill_file(original, new, band)
