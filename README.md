@@ -1,6 +1,6 @@
 # iot-net-planner
 A set of tools written in Python for planning an [IoT network](https://blogs.cornell.edu/iotnetwork/what-is-a-public-iot-network/). The planned features for this package are:
-- [DSM](https://en.wikipedia.org/wiki/Digital_elevation_model) creation
+- [DSM creation](#dsm-creation)
 - [Packet reception rate](https://blogs.cornell.edu/iotnetwork/how-do-you-set-a-network-up/communication-between-gateways-and-devices/) prediction
 - [Gateway](https://blogs.cornell.edu/iotnetwork/how-do-you-set-a-network-up/gateway-set-up/) placement optimization
 
@@ -15,7 +15,7 @@ For users with knowledge about Python, to install the package:
 Documentation is in its early stages. For now, the examples directory provides usage examples.
 
 ### DSM Creation
-A Digital Surface Model (DSM) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. For municipalities in the United States, the [United States Geological Survery](https://www.usgs.gov/) (USGS) provides free Lidar data for creating a DSM. 
+A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_model)) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. For municipalities in the United States, the [United States Geological Survery](https://www.usgs.gov/) (USGS) provides free Lidar data for creating a DSM. 
 
 To create a DSM using USGS data, head to the [USGS Lidar Explorer](https://apps.nationalmap.gov/lidar-explorer/#/). In the menu on the right, click the box next to "Show where Lidar is available" to see if coverage is available in your area.
 
@@ -40,6 +40,12 @@ After the green bar fills at the top of the screen, the server will start creati
 The process may take a long time, especially for high resolutions or large areas. The status menu will say "Status: Processing Completed!" when the request is done processing. Click the "Download tif #0" link to download the completed DSM. You can rename and move the file, make sure that it still has the ".tif" file extension and remember where it is kept on the computer.
 
 ![Image showing a completed request menu on the USGS website](https://i.imgur.com/wn6CUNL.png)
+
+The resulting DSM may still have small holes to fill. It will likely look something like this:
+
+![Image showing a DSM with holes](https://i.imgur.com/8JKHxpZ.png)
+
+![Image showing a filled DSM](https://i.imgur.com/7oD3JX2.png)
 
 ## Acknowledgement
 The development of these tools was supported by the NSF under grant CNS-1952063.
