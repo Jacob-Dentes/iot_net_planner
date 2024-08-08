@@ -62,7 +62,7 @@ The resulting DSM may still have small holes to fill. For example, here is a DSM
 
 ![Image showing a DSM with holes](https://i.imgur.com/8JKHxpZ.png)
 
-After filling, the DSM now looks like this:
+In the command prompt, run `python examples/fill_script.py dsm_path new_path` where `dsm_path` is the path to the DSM file on your computer and `new_path` is the path where the filled DSM will be placed. After filling, the DSM now looks like this:
 
 ![Image showing a filled DSM](https://i.imgur.com/7oD3JX2.png)
 
