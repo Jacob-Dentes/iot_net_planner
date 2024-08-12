@@ -69,7 +69,7 @@ In the command prompt, ensure that you are in the correct directory and have the
 ![Image showing a filled DSM](https://i.imgur.com/7oD3JX2.png)
 
 ### Creating Coverage Area
-You can define a desired coverage area using [Google My Maps](https://www.google.com/maps/about/mymaps/), you will need to create a Google account if you do not already have one. After signing in, click "CREATE A NEW MAP" to begin.
+In this section you will define the area you want covered. This requires you have already [made a DSM](#dsm-creation) .You can define a desired coverage area using [Google My Maps](https://www.google.com/maps/about/mymaps/), you will need to create a Google account if you do not already have one. After signing in, click "CREATE A NEW MAP" to begin.
 
 ![Image showing the CREATE A NEW MAP button on Google Maps](https://i.imgur.com/QJs981e.png)
 
@@ -94,6 +94,20 @@ To export the map: click the three dots to the right of the map name (1), click 
 ![Image showing export](https://i.imgur.com/JvRv5lr.png)
 
 Now you will create a demand point file. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/demand_creation.py dsm_path area_path output_path points` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, `output_path` is a path to the new file to be created ending in ".geojson", and `points` is a positive integer representing how many points will be generated. The higher the `points` number the more accurate coverage will be, but the longer computations will take. Larger areas will need more points. For reference, `1000` points is probably enough for the small area in the Ithaca example above. As another example, `8000` points was used for high-granularity coverage of lower Manhattan, Brooklyn, and the west side of Queens.
+
+### Finding potential gateways
+In this section you will define the potential locations that gateways can be placed. The package supports two methods for defining locations.
+1. You can automatically generate potential locations [from building corners](#gateways-from-building-corners).
+2. You can [manually place](#manual-gateway-placement) potential gateway locations for places that are likely to allow gateways.
+
+#### Gateways from building corners
+In this section you will generate a potential gateway file automatically from building corners. This requires a [DSM](#dsm-creation) and an [area file](#creating-coverage-area). In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/fac_creation.py dsm_path area_path output_path` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, and `output_path` is a path to the new file to be created ending in ".geojson". After the command runs, there will be an ouput similar to `Generated x potential gateways` informing you how many potential gateways were found. More potential gateways will make the computations take longer. To generate fewer potential locations run the command `python examples/fac_creation.py dsm_path area_path output_path n_facs` where `n_facs` is how many locations you would like, and the rest of the parameters are the same as above.
+
+#### Manual gateway placement
+This section is under construction. It will describe how to manually choose potential gateway locations.
+
+#### Hybrid gateway placement
+This section is under construction. It will describe how to combine [building corner](#gateways-from-building-corners) and [manually placed](#manual-gateway-placement) gateways.
 
 ## Acknowledgement
 The development of these tools was supported by the NSF under grant CNS-1952063.
