@@ -67,6 +67,6 @@ def plot_demands(dems):
 
     dems.plot(ax=ax, color='magenta', alpha=0.3)
     
-    ctx.add_basemap(ax, crs=dems.crs.to_string())
+    ctx.add_basemap(ax, crs=dems.crs.to_string(), source=ctx.providers.OpenStreetMap.Mapnik)
 
     plt.show()

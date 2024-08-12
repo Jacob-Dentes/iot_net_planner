@@ -29,7 +29,8 @@ dependencies = [
     "seaborn",
     "xgboost",
     "contextily",
-    "fiona"
+    "fiona",
+    "osmnx"
 ]
 requires-python = ">=3.6"
 keywords = ["IoT", "network", "planning"]

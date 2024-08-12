@@ -12,8 +12,14 @@ supported_drivers['LIBKML'] = 'r'
 supported_drivers['KML'] = 'r'
 
 # Loads an area kml file. puts all layers into one GeoDataFrame
-def _load_file(area_file, utm=None):
-    # Load the KML file
+def load_file(area_file, utm=None):
+    """
+    Load all layers of a KML file into a GeoDataFrame
+
+    :param area_file: a path to the KML file
+
+    :param utm: a crs to convert the resulting dataframe to
+    """
     layers = list(fiona.listlayers(area_file))
     gdfs = [gpd.read_file(area_file, driver='KML', layer=layer) for layer in layers]
     area_frame = gpd.GeoDataFrame(pd.concat(gdfs, ignore_index=True))
@@ -70,7 +76,7 @@ def generate_grid(area_file, granularity, sampler=None, utm=None):
 
     :returns: a GeoDataFrame of the demand points
     """
-    area_frame = _load_file(area_file, utm)
+    area_frame = load_file(area_file, utm)
 
     dems = _make_grid(area_frame, granularity)
 
@@ -97,7 +103,7 @@ def generate_grid_with_points(area_file, target_points, sampler=None, utm=None):
     :returns: a GeoDataFrame of the demand points
     """
     tolerance = 5
-    area_frame = _load_file(area_file, utm)
+    area_frame = load_file(area_file, utm)
 
     # Generate points
     minx, miny, maxx, maxy = area_frame.total_bounds
