@@ -74,3 +74,11 @@ def plot_demands(dems):
     ctx.add_basemap(ax, crs=dems.crs.to_string(), source=ctx.providers.OpenStreetMap.Mapnik)
 
     plt.show()
+
+def plot_facs(facs):
+    """
+    Creates and shows a matplotlib plot showing the facility points in facs
+
+    :param facs: a GeoDataFrame of the facility points to show in the plot
+    """
+    plot_demands(facs)
