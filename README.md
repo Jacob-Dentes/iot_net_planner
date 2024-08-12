@@ -64,7 +64,7 @@ The resulting DSM may still have small holes to fill. For example, here is a DSM
 
 ![Image showing a DSM with holes](https://i.imgur.com/8JKHxpZ.png)
 
-In the command prompt, run `python examples/fill_script.py dsm_path new_path` where `dsm_path` is the path to the DSM file on your computer and `new_path` is the path where the filled DSM will be placed. After filling, the DSM now looks like this:
+In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of [non-python user instructions](#non-python-users)). Then, run `python examples/fill_script.py dsm_path new_path` where `dsm_path` is the path to the DSM file on your computer and `new_path` is the path where the filled DSM will be placed. After filling, the DSM now looks like this:
 
 ![Image showing a filled DSM](https://i.imgur.com/7oD3JX2.png)
 
@@ -89,9 +89,11 @@ You can drag the polygon's vertices to move them, and click the midpoint between
 
 ![Image showing adding a new layer](https://i.imgur.com/H1iKkYl.png)
 
-To export the map: click the three dots to the right of the map name (1), click "Export to KML/KMZ" (2), make sure that the "Entire Map" is selected if you have multiple layers, check "Export as KML instead of KMZ" (3), then click the blue "Download" button (4). You can rename and move the file, make sure that it still has the ".kml" file extension and remember where it is kept on the computer.
+To export the map: click the three dots to the right of the map name (1), click "Export to KML/KMZ" (2), make sure that the "Entire Map" is selected if you have multiple layers, check "Export as KML instead of KMZ" (3), then click the blue "Download" button (4). You can rename and move the file, make sure that it still has the ".kml" file extension and remember where it is kept on the computer. This is the area file.
 
 ![Image showing export](https://i.imgur.com/JvRv5lr.png)
+
+Now you will create a demand point file. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/demand_creation.py dsm_path area_path output_path points` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, `output_path` is a path to the new file to be created ending in ".geojson", and `points` is a positive integer representing how many points will be generated. The higher the `points` number the more accurate coverage will be, but the longer computations will take. Larger areas will need more points. For reference, `1000` points is probably enough for the small area in the Ithaca example above. As another example, `8000` points was used for high-granularity coverage of lower Manhattan, Brooklyn, and the west side of Queens.
 
 ## Acknowledgement
 The development of these tools was supported by the NSF under grant CNS-1952063.
