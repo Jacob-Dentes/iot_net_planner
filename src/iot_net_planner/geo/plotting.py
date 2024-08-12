@@ -36,6 +36,8 @@ def plot_facs_coverage(dems, facs, built, contributions):
     :param contributions: a numpy array of the contributions to each of the demand points 
     with len(contributions) == len(dems). Look into predictions.prr_model for generating predictions
     """
+    dems = dems.to_crs(epsg=3857)
+    facs = facs.to_crs(epsg=3857)
     contributions = contributions.clip(0.0, 1.0)
     fig, ax = plt.subplots(1, 1, figsize=(8, 8))
 
@@ -44,10 +46,11 @@ def plot_facs_coverage(dems, facs, built, contributions):
     colors = [(1, 0, 0), (1, 1, 0), (0, 1, 0)]  # Red to Yellow to Green
     cmap = mcolors.LinearSegmentedColormap.from_list('RedYellowGreen', colors)
 
-    dems.plot(ax=ax, color=cmap(norm(contributions)), alpha=0.3)
+    # dems.plot(ax=ax, color=cmap(norm(contributions)), alpha=0.3)
+    dems.plot(ax=ax, c=contributions, cmap=cmap, norm=norm, alpha=0.3)
     facs.iloc[built].plot(ax=ax, color='magenta', alpha=1.0)
     
-    ctx.add_basemap(ax, crs=dems.crs.to_string())
+    ctx.add_basemap(ax, crs=dems.crs.to_string(), source=ctx.providers.OpenStreetMap.Mapnik)
     
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm.set_array([])
@@ -63,6 +66,7 @@ def plot_demands(dems):
 
     :param dems: a GeoDataFrame of the demand points to show in the plot
     """
+    dems = dems.to_crs(epsg=3857)
     fig, ax = plt.subplots(1, 1, figsize=(10, 10))
 
     dems.plot(ax=ax, color='magenta', alpha=0.3)
