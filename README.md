@@ -30,7 +30,7 @@ Documentation is in its early stages. The documented pipeline stages are:
 - [Defining a Coverage Area](#creating-coverage-area)
 
 ### DSM Creation
-A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_model)) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. As an example, here is an aspect render for a DSM created for an area around Ithaca, New York:
+A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_model)) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. We need a DSM that encloses the whole desired coverage region and all potential gateways. As an example, here is an aspect render for a DSM created for an area around Ithaca, New York:
 
 ![Image showing an aspect render](https://i.imgur.com/Q1ALz0z.jpeg)
 
@@ -64,12 +64,12 @@ The resulting DSM may still have small holes to fill. For example, here is a DSM
 
 ![Image showing a DSM with holes](https://i.imgur.com/8JKHxpZ.png)
 
-In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of [non-python user instructions](#non-python-users)). Then, run `python examples/fill_script.py dsm_path new_path` where `dsm_path` is the path to the DSM file on your computer and `new_path` is the path where the filled DSM will be placed. After filling, the DSM now looks like this:
+In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of [non-python user instructions](#non-python-users)). Then, run `python examples/fill_script.py dsm_path new_path` where `dsm_path` is the path to the DSM file on your computer and `new_path` is the path where the filled DSM will be placed. **Note:** If any paths contain a space, that path should be wrapped in double quotes. After filling, the DSM now looks like this:
 
 ![Image showing a filled DSM](https://i.imgur.com/7oD3JX2.png)
 
 ### Creating Coverage Area
-In this section you will define the area you want covered. This requires you have already [made a DSM](#dsm-creation) .You can define a desired coverage area using [Google My Maps](https://www.google.com/maps/about/mymaps/), you will need to create a Google account if you do not already have one. After signing in, click "CREATE A NEW MAP" to begin.
+In this section you will define the area you want covered. This requires you have already [made a DSM](#dsm-creation) that fully covers the desired coverage region. You can define a desired coverage area using [Google My Maps](https://www.google.com/maps/about/mymaps/), you will need to create a Google account if you do not already have one. After signing in, click "CREATE A NEW MAP" to begin.
 
 ![Image showing the CREATE A NEW MAP button on Google Maps](https://i.imgur.com/QJs981e.png)
 
@@ -93,22 +93,54 @@ To export the map: click the three dots to the right of the map name (1), click 
 
 ![Image showing export](https://i.imgur.com/JvRv5lr.png)
 
-Now you will create a demand point file. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/demand_creation.py dsm_path area_path output_path points` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, `output_path` is a path to the new file to be created ending in ".geojson", and `points` is a positive integer representing how many points will be generated. The higher the `points` number the more accurate coverage will be, but the longer computations will take. Larger areas will need more points. For reference, `1000` points is probably enough for the small area in the Ithaca example above. As another example, `8000` points was used for high-granularity coverage of lower Manhattan, Brooklyn, and the west side of Queens.
+Now you will create a demand point file. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/demand_creation.py dsm_path area_path output_path points` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, `output_path` is a path to the new file to be created ending in ".geojson", and `points` is a positive integer representing how many points will be generated. **Note:** If any paths contain a space, that path should be wrapped in double quotes. The higher the `points` number the more accurate coverage will be, but the longer computations will take. Larger areas will need more points. For reference, `1000` points is probably enough for the small area in the Ithaca example above. As another example, `8000` points was used for high-granularity coverage of lower Manhattan, Brooklyn, and the west side of Queens.
 
 ### Finding potential gateways
 In this section you will define the potential locations that gateways can be placed. The package supports two methods for defining locations.
 1. You can automatically generate potential locations [from building corners](#gateways-from-building-corners).
 2. You can [manually place](#manual-gateway-placement) potential gateway locations for places that are likely to allow gateways.
 
+If you have gateways that are already built the model can take the coverage it already provides into account. Make sure that prebuilt gateways are [manually](#manual-gateway-placement) input with corresponding "built" entries set to `1`. You can also combine potential gateways from the two methods into a [hybrid](#hybrid-gateway-placement). 
+
+**Note:** all potential gateway locations should be in the DSM that you created. Additionally, if you draw a line segment from every potential gateway to every desired coverage point the whole segment should be in the DSM that was created. If you generated the DSM using the method above, the coverage area is completely within the DSM, and all potential gateway locations were within the DSM, you satisfy the segment criterion automatically.
+
 #### Gateways from building corners
-In this section you will generate a potential gateway file automatically from building corners. This requires a [DSM](#dsm-creation) and an [area file](#creating-coverage-area). In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/fac_creation.py dsm_path area_path output_path` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, and `output_path` is a path to the new file to be created ending in ".geojson". After the command runs, there will be an ouput similar to `Generated x potential gateways` informing you how many potential gateways were found. More potential gateways will make the computations take longer. To generate fewer potential locations run the command `python examples/fac_creation.py dsm_path area_path output_path n_facs` where `n_facs` is how many locations you would like, and the rest of the parameters are the same as above. This will lead choose `n_facs` of the gateways that were found while trying to space them apart.
+This section will show you how to generate a potential gateway file automatically from building corners. This requires a [DSM](#dsm-creation) and an [area file](#creating-coverage-area). In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/fac_creation.py dsm_path area_path output_path` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, and `output_path` is a path to the new file to be created ending in ".geojson". **Note:** If any paths contain a space, that path should be wrapped in double quotes. After the command runs, there will be an ouput similar to `Generated x potential gateways` informing you how many potential gateways were found. More potential gateways will make the computations take longer. To generate fewer potential locations run the command `python examples/fac_creation.py dsm_path area_path output_path n_facs` where `n_facs` is how many locations you would like, and the rest of the parameters are the same as above. This will lead choose `n_facs` of the gateways that were found while trying to space them apart.
 
 Generating using the Ithaca area file from above gives `40191` potential gateway locations. Asking for `250` of them gives the following gateways:
 
 ![Image showing the generated gateways for Ithaca](https://i.imgur.com/b2LnNPV.png)
 
 #### Manual gateway placement
-This section is under construction. It will describe how to manually choose potential gateway locations.
+This section will show you how to manually define potential gateway locations. This requires a [DSM](#dsm-creation) unless you know the altitudes of all the potential gateway locations. For users with GeoPandas experience who want to make their own GeoDataFrame, go to [the first subsection](#users-with-geopandas-experience). For users without GeoPandas experience or want step-by-step instructions, go to [the second subsection](#users-without-geopandas-experience).
+##### Users with GeoPandas experience
+Create a GeoDataFrame with point geometry. There should be an entry for each potential gateway location. Optionally, add an "altitude" column that contains the height for each gateway location (for USGS DSMs the height above sea level in meters), or NaN for values to be filled by DSM. If no "altitude" column is present all values will be filled by DSM. Optionally, add a "built" column that contains `0` for gateways that have not been built or `1` for gateways that are already built. If no "built" column is present all gateways will be assumed to be unbuilt. **Make sure the GeoDataFrame has a coordinate reference system**. Write the GeoDataFrame to a geojson file.
+
+If you had any NaNs in the altitude column you must fill them. There is a helper script for this if you already have a [DSM](#dsm-creation). In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/manual_fac.py dsm_path gdf_path output_path` where `dsm_path` is a path to the dsm file on your computer, `gdf_path` is a path to the geojson file on your computer, and `output_path` is a path to the new file to be created ending in ".geojson". **Note:** If any paths contain a space, that path should be wrapped in double quotes.
+
+##### Users without GeoPandas experience
+This section will show you how to manually define potential gateway locations. This requires a [DSM](#dsm-creation) unless you know the altitudes of all the potential gateway locations. This section assumes knowledge of a spreadsheet program. The example images will use [Google Sheets](https://workspace.google.com/products/sheets/), a free spreadsheet website, but any spreadsheet program that can export a ".csv" file will work.
+
+Add columns called "latitude" and "longitude". If you know the altitude of some gateways then also add an "altitude" column. If some of the gateways are already built, add a "built" column.
+
+![Image of an example sheet](https://i.imgur.com/EeB4C8I.png)
+
+For each of the gateway locations follow these steps:
+1. Input the latitude and longitude of the location. You can find a latitude and longitude by going to [Google Maps](https://www.google.com/maps/), right-clicking a location (1), and then clicking the top entry in the popout menu to copy the coordinates to clipboard (2). If you copy it to clipboard in this way you will need to separate the two numbers into the spreadsheet columns.
+
+![Image of an example sheet](https://i.imgur.com/3nDy3u9.png)
+
+2. Skip this step if you do not have an "altitude" column. If you know the altitude of the gateway, put its altitude (for USGS DSMs this is in meters above sea level) in the "altitude" column. If you do not know the gateway's altitude, put "NaN" (case sensitive).
+   
+3. Skip this step if you do not have a "built" column. If the gateway is already built, put a `1` in the "built" column. Otherwise, put a `0`.
+
+After adding all the locations your spreadsheet will look something like the following (perhaps without the "altitude" and "built" columns):
+
+![Image showing a small completed spreadsheet](https://i.imgur.com/A0TKV9z.png)
+
+Download the spreadsheet as a ".csv" file. In Google Sheets you can do this by navigating File -> Download -> Comma Separated Values. You can rename and move the file, make sure that it still has the ".csv" file extension and remember where it is kept on the computer. This is the CSV file.
+
+In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/manual_fac.py dsm_path csv_path output_path` where `dsm_path` is a path to the dsm file on your computer, `csv_path` is a path to the csv file on your computer, and `output_path` is a path to the new file to be created ending in ".geojson". **Note:** If any paths contain a space, that path should be wrapped in double quotes.
 
 #### Hybrid gateway placement
 This section is under construction. It will describe how to combine [building corner](#gateways-from-building-corners) and [manually placed](#manual-gateway-placement) gateways.
