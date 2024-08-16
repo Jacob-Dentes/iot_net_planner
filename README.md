@@ -26,9 +26,10 @@ For users without knowledge of Python, to install the package:
 
 ## Usage
 Documentation is in its early stages. The documented pipeline stages are:
-- [DSM Creation](#dsm-creation)
-- [Defining a Coverage Area](#creating-coverage-area)
+- [DSM creation](#dsm-creation)
+- [Defining a coverage area](#creating-coverage-area)
 - [Defining potential gateways](#finding-potential-gateways)
+- [Training a model](#training-a-model) (optional)
 
 ### DSM Creation
 A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_model)) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. We need a DSM that encloses the whole desired coverage region and all potential gateways. As an example, here is an aspect render for a DSM created for an area around Ithaca, New York:
@@ -96,7 +97,7 @@ To export the map: click the three dots to the right of the map name (1), click 
 
 Now you will create a demand point file. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/demand_creation.py dsm_path area_path output_path points` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, `output_path` is a path to the new file to be created ending in ".geojson", and `points` is a positive integer representing how many points will be generated. **Note:** If any paths contain a space, that path should be wrapped in double quotes. The higher the `points` number the more accurate coverage will be, but the longer computations will take. Larger areas will need more points. For reference, `1000` points is probably enough for the small area in the Ithaca example above. As another example, `8000` points was used for high-granularity coverage of lower Manhattan, Brooklyn, and the west side of Queens.
 
-### Finding potential gateways
+### Finding Potential Gateways
 In this section you will define the potential locations that gateways can be placed. The package supports two methods for defining locations.
 1. You can automatically generate potential locations [from building corners](#gateways-from-building-corners).
 2. You can [manually place](#manual-gateway-placement) potential gateway locations for places that are likely to allow gateways.
@@ -105,21 +106,21 @@ If you have gateways that are already built the model can take the coverage it a
 
 **Note:** all potential gateway locations should be in the DSM that you created. Additionally, if you draw a line segment from every potential gateway to every desired coverage point the whole segment should be in the DSM that was created. If you generated the DSM using the method above, the coverage area is completely within the DSM, and all potential gateway locations were within the DSM, you satisfy the segment criterion automatically.
 
-#### Gateways from building corners
+#### Gateways from Building Corners
 This section will show you how to generate a potential gateway file automatically from building corners. This requires a [DSM](#dsm-creation) and an [area file](#creating-coverage-area). In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/fac_creation.py dsm_path area_path output_path` where `dsm_path` is a path to the dsm file on your computer, `area_path` is a path to the area file on your computer, and `output_path` is a path to the new file to be created ending in ".geojson". **Note:** If any paths contain a space, that path should be wrapped in double quotes. After the command runs, there will be an ouput similar to `Generated x potential gateways` informing you how many potential gateways were found. More potential gateways will make the computations take longer. To generate fewer potential locations run the command `python examples/fac_creation.py dsm_path area_path output_path n_facs` where `n_facs` is how many locations you would like, and the rest of the parameters are the same as above. This will lead choose `n_facs` of the gateways that were found while trying to space them apart.
 
 Generating using the Ithaca area file from above gives `40191` potential gateway locations. Asking for `250` of them gives the following gateways:
 
 ![Image showing the generated gateways for Ithaca](https://i.imgur.com/b2LnNPV.png)
 
-#### Manual gateway placement
+#### Manual Gateway Placement
 This section will show you how to manually define potential gateway locations. This requires a [DSM](#dsm-creation) unless you know the altitudes of all the potential gateway locations. For users with GeoPandas experience who want to make their own GeoDataFrame, go to [the first subsection](#users-with-geopandas-experience). For users without GeoPandas experience or want step-by-step instructions, go to [the second subsection](#users-without-geopandas-experience).
-##### Users with GeoPandas experience
+##### Users with GeoPandas Experience
 Create a GeoDataFrame with point geometry. There should be an entry for each potential gateway location. Optionally, add an "altitude" column that contains the height for each gateway location (for USGS DSMs the height above sea level in meters), or NaN for values to be filled by DSM. If no "altitude" column is present all values will be filled by DSM. Optionally, add a "built" column that contains `0` for gateways that have not been built or `1` for gateways that are already built. If no "built" column is present all gateways will be assumed to be unbuilt. **Make sure the GeoDataFrame has a coordinate reference system**. Write the GeoDataFrame to a geojson file.
 
 If you had any NaNs in the altitude column (or no altitude column at all) you must fill them. There is a helper script for this if you already have a [DSM](#dsm-creation). In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/manual_fac.py dsm_path gdf_path output_path` where `dsm_path` is a path to the dsm file on your computer, `gdf_path` is a path to the geojson file on your computer, and `output_path` is a path to the new file to be created ending in ".geojson". **Note:** If any paths contain a space, that path should be wrapped in double quotes.
 
-##### Users without GeoPandas experience
+##### Users without GeoPandas Experience
 This section will show you how to manually define potential gateway locations. This requires a [DSM](#dsm-creation) unless you know the altitudes of all the potential gateway locations. This section assumes knowledge of a spreadsheet program. The example images will use [Google Sheets](https://workspace.google.com/products/sheets/), a free spreadsheet website, but any spreadsheet program that can export a ".csv" file will work.
 
 Add columns called "latitude" and "longitude". If you know the altitude of some gateways then also add an "altitude" column. If some of the gateways are already built, add a "built" column.
@@ -143,10 +144,25 @@ Download the spreadsheet as a ".csv" file. In Google Sheets you can do this by n
 
 In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/manual_fac.py dsm_path csv_path output_path` where `dsm_path` is a path to the dsm file on your computer, `csv_path` is a path to the csv file on your computer, and `output_path` is a path to the new file to be created ending in ".geojson". **Note:** If any paths contain a space, that path should be wrapped in double quotes.
 
-#### Hybrid gateway placement
+#### Hybrid Gateway Placement
 This section will show you how to combine [building corner](#gateways-from-building-corners) and [manually placed](#manual-gateway-placement) gateways. It requires you to have already created geojson files for both building corners and manually placed gateways. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/hybrid_fac.py corner_path manual_path output_path` where `corner_path` is a path to the building corner geojson, `manual_path` is a path to the manual gateway geojson, and `output_path` is a path to the new file to be created ending in ".geojson". **Note:** If any paths contain a space, that path should be wrapped in double quotes.
 
 *By default, the model will assume that building corners are inexact because not all building owners are willing to house a gateway. Conversely, the model will assume that all manual gateway locations are exact. For inexact locations, the model will suggest an area that would be a good choice for a gateway. You can break either assumption by adding* `all_exact` *or* `no_exact` *as an additional argument, respectively.*
+
+### Training a Model
+This technical section will describe how to train a model for your municipality. This is not necessary, but will likely lead to more accurate results. Model training requires building some gateways around your city and collecting data using transmitters. This section is intended for a semi-technical audience.
+
+#### Data Collection
+This section is under construction. It will describe how to collect the data necessary to train a model.
+
+#### Training Data Format
+Training data consists of a GeoPandas [GeoDataFrame](https://geopandas.org/en/stable/docs/reference/api/geopandas.GeoDataFrame.html) with Shapely [LineString](https://shapely.readthedocs.io/en/stable/reference/shapely.LineString.html) geometry. The first point of the LineString should be the location of the transmission. The second point of the LineString should be the location of the gateway. There should be columns `ele_tr` and `ele_gw` that give the elevations of the transmission and gateway, respectively (in the same units as the DSM, which is meters above sea level for USGS DSMs). There should be a `success` column that is `1` if the transmission was successful, and `0` otherwise. The GeoDataFrame should have a set CRS (otherwise it will be assumed to be [EPSG:4326](https://epsg.io/4326)). Save the training data file to your filesystem.
+
+#### Make the Training Data
+In this section you will create training inputs and outputs for model training. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/make_train_data.py dsm_path train_data_path x_out_path y_out_path` where `dsm_path` is a path to the dsm file on your computer, `train_data_path` is a path to the training data file on your computer, `x_out` is the desired path for the created training inputs with the ".npy" extension, and `y_out` is the desired path for the created training outputs with the ".npy" extension. While computing, the program will print its progress after processing every 512 links, so do not be alarmed if the progress stays on `1` for a while. The command will output files to the `x_out` and `y_out` paths, make sure to remember these paths for training. We will refer to the files as "X file" and "y file", respectively.
+
+#### Training the Model
+In this section you will use the X and y files to train a model.
 
 ## Acknowledgement
 The development of these tools was supported by the NSF under grant CNS-1952063.
