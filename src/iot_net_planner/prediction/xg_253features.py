@@ -6,14 +6,18 @@ from iot_net_planner.prediction.ml_253_input import ML253FeaturesInput
 
 from sklearn.preprocessing import StandardScaler
 from skl2onnx import to_onnx
+from onnxruntime import InferenceSession
 import numpy as np
 import xgboost as xgb
 
 class XGModel():
-    def __init__(self, path, sc, n_inputs=252):
+    def __init__(self, path, sc_file, n_inputs=252):
         self.model = xgb.Booster()
         self.model.load_model(path)
-        self._sc = sc
+        with open(sc_file, "rb") as f:
+            onx = f.read()
+        standard_scalar = InferenceSession(onx)
+        self._sc = standard_scalar
 
     def forward(self, X):
         X = self._sc.run(None, {"X": X})[0]
@@ -21,13 +25,13 @@ class XGModel():
         return self.model.predict(dmat)
 
 class XG253Features(PRRModel):
-    def __init__(self, dems, facs, sampler, model_path, standard_scalar, ncols=250):
+    def __init__(self, dems, facs, sampler, model_path, sc_path, ncols=250):
         self._input_gen = ML253FeaturesInput(dems, facs, sampler, ncols)
         self._dems = dems
         self._facs = facs
         self._sampler = sampler
         self._ncols = ncols
-        self._model = XGModel(model_path, standard_scalar)
+        self._model = XGModel(model_path, sc_path)
         self._all_dems = np.full(len(dems), True)
 
     @property
@@ -79,8 +83,9 @@ def train_xg_253_model(X_train, y_train, sc_out, xg_out, num_round=1000):
     sc = StandardScaler()
     X_train = sc.fit_transform(X_train)
     onx = to_onnx(sc, X_train[:1].astype(np.double))
-    with open(sc_out, "wb") as f:
-        f.write(onx.SerializeToString())
+    if sc_out != ".onnx":
+        with open(sc_out, "wb") as f:
+            f.write(onx.SerializeToString())
 
     weights = [
         len(y_train) / (len(np.unique(y_train))*np.where(y_train == 0)[0].size),
