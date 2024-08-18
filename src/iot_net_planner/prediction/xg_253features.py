@@ -18,7 +18,6 @@ class XGModel():
             onx = f.read()
         standard_scalar = InferenceSession(onx)
         self._sc = standard_scalar
-        print(self._sc)
 
     def forward(self, X):
         X = self._sc.run(None, {"X": X})[0]
