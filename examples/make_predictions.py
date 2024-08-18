@@ -2,6 +2,9 @@ from make_pypath import pathify
 pathify() 
 import sys
 
+import geopandas as gpd
+import pandas as pd
+
 from iot_net_planner.geo.dsm_sampler import DSMSampler
 
 from iot_net_planner.prediction.prr_cache import CachedPRRModel
