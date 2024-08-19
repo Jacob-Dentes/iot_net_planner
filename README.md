@@ -4,6 +4,12 @@ A set of tools written in Python for planning an [IoT network](https://blogs.cor
 - [Packet reception rate](https://blogs.cornell.edu/iotnetwork/how-do-you-set-a-network-up/communication-between-gateways-and-devices/) prediction
 - [Gateway](https://blogs.cornell.edu/iotnetwork/how-do-you-set-a-network-up/gateway-set-up/) placement optimization
 
+## Contributors
+- Sander Aarts
+- Alfredo Rodriguez
+- Ali Amadeh
+- Jacob Dentes
+
 ## Installation
 
 ### Python Users
@@ -175,6 +181,9 @@ In this section you will create training inputs and outputs for model training. 
 
 ##### Training the Prediction Model
 In this section you will use the X and y files from [above](#make-the-training-data) to train a prediction model. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/train_model.py X_path y_path sc_out xg_out 0.0` where `X_path` is a path to the X file on your computer, `y_path` is a path to the y file on your computer, `sc_out` is the desired path for the model standard scaler on your computer ending in ".onnx", and `xg_out` is the desired path for the model on your computer ending in ".json". You can also change `0.0` to any float in `[0.0, 1.0)` to designate a testing set. This defines a proportion of the data to set aside and test the resulting model on. The [Brier score](https://en.wikipedia.org/wiki/Brier_score) (lower is better) will be printed after the model trains if the proportion is greater than `0.0` (the proportion must be high enough that at least one element is in the testing set). You can move and rename the standard scaler and xg files, but be sure to keep the same extensions.
+
+### Making Predictions
+In this section you will use the model created in [Training a Model](#training-a-model) to generate predictions for how much coverage potential gateways provide. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python examples/make_predictions.py dsm_path demands_path potential_gateways_path sc_path xg_path out_path` where `dsm_path` is the path to the [DSM](#dsm-creation) on your computer, `demands_path` is the path to the demand geojson file created in [Creating Coverage Area](#creating-coverage-area), `potential_gateways_path` is the path to the potential gateway geojson file created in [Finding Potential Gateways](#finding-potential-gateways), `sc_path` is the path to the ".onnx" standard scaler file, `xg_path` is the path to the ".json" model, and `out_path` is the desired path to the new prediction file, ending in ".npy". You can move and rename the prediction file, but be sure to keep the ".npy" extension.
 
 ## Acknowledgement
 The development of these tools was supported by the NSF under grant CNS-1952063.
