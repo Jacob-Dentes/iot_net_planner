@@ -36,7 +36,7 @@ A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_m
 
 ![Image showing an aspect render](https://i.imgur.com/Q1ALz0z.jpeg)
 
-The rest of this DSM Creation section will cover how you could create a DSM for that area. The method will work for most of the United States. For municipalities in the United States, the [United States Geological Survery](https://www.usgs.gov/) (USGS) provides free Lidar data for creating a DSM. 
+The rest of this DSM Creation section will cover how you could create a DSM for that area. The method will work for most of the United States. For municipalities in the United States, the [United States Geological Survery](https://www.usgs.gov/) (USGS) provides free Lidar data for creating a DSM. For municipalities outside the United States, you might look into the [USGS Earth Explorer](https://earthexplorer.usgs.gov/).
 
 To create a DSM using USGS data, head to the [USGS Lidar Explorer](https://apps.nationalmap.gov/lidar-explorer/#/). In the menu on the right, click the box next to "Show where Lidar is available" to see if coverage is available in your area.
 
