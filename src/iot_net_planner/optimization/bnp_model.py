@@ -1,3 +1,6 @@
+"""Uses branch and bound to solve an optimization input
+"""
+
 import numpy as np
 from pyscipopt import Model, quicksum, Pricer, SCIP_RESULT, SCIP_PARAMSETTING
 
@@ -80,16 +83,21 @@ class ColPricer(Pricer):
 class BNPModel(OPTCoverageModel):
     @staticmethod
     def solve_coverage(budget, min_weight, dems, facs, prr, qinc=1.0, logging=True):
-        """
-        Solves a CIP for coverage with branch and price
+        """Solves a CIP for coverage with branch and price
 
         :param budget: The maximum allowable amount to spend
+        :type budget: float
         :param min_weight: The objective is min_weight * worst coverage + (1 - min_weight) * average coverage
-        :param dems: A geopandas dataframe for the demand points
-        :param facs: A geopandas dataframe for the potential gateways. It should have a 'cost'
-        field representing how much each gateway costs (pricing is relative)
+        :type min_weight: float
+        :param dems: a GeoDataFrame of the demand points
+        :type dems: gpd.GeoDataFrame
+        :param facs: a GeoDataFrame for the potential gateways. It should have a 'cost'
+            field representing how much each gateway costs (pricing is relative)
+        :type facs: gpd.GeoDataFrame
         :param prr: A CachedPRRModel initialized with dems and facs
-
+        :type prr: `iot_net_planner.prediction.prr_cache.CachedPRRModel`
+        :return: a set of indices of facs to build
+        :rtype: set
         """
         rlen = lambda l: range(len(l))
         f = facs['cost'].to_numpy() 

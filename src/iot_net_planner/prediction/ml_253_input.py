@@ -1,5 +1,4 @@
-"""
-A driver for creating an ml input for a 253 feature prr model.
+"""A driver for creating an ml input for a 253 feature prr model.
 The input is 250 line segment samples, the log-distance,
 the log of the absolute altitude difference, and a constant
 """
@@ -9,20 +8,19 @@ import geopandas as gpd
 from shapely.geometry import Point
 
 class ML253FeaturesInput():
-    """
-    A class for generating ml model inputs using the 253 feature model.
+    """A class for generating ml model inputs using the 253 feature model.
     The input contains 250 line of sight samples, the log-distance, 
-    the log of the absolute altitude difference, and a constant
+    the log of the absolute altitude difference, and a constant.
+
+    :param dems: a GeoDataFrame of the demand points to compute inputs to
+    :type dems: gpd.GeoDataFrame
+    :param facs: a GeoDataFrame of the facility points to compute inputs from
+    :type facs: gpd.GeoDataFrame
+    :param sampler: an instance of geo.sampler.LinkSampler instantiated with dems and facs
+    :type sampler: class: `iot_net_planner.geo.sampler.LinkSampler`
     """
     def __init__(self, dems, facs, sampler, ncols=250):
-        """
-        Create a new input generator
-
-        :param dems: a GeoDataFrame of the demand points to compute inputs to
-
-        :param facs: a GeoDataFrame of the facility points to compute inputs from
-
-        :param sampler: an instance of geo.sampler instantiated with dems and facs
+        """Constructor method
         """
         self._dems = dems
         self._facs = facs
@@ -63,16 +61,17 @@ class ML253FeaturesInput():
         return (altitudes - arr)
 
     def get_input(self, fac, dems=None):
-        """
-        Get the input from fac to dems, includes the constant
+        """Get the input from fac to dems, includes the constant
 
         :param fac: the facility to get input from
-
+        :type fac: int
         :param dems: a boolean numpy array of the demand points to get. 
-        Will get the inputs to each demand point where dems[i] is True.
-        If None is passed in then it will get the input to all demand points
-
-        :returns: A dems.sum() x 253 numpy array of inputs if demands is not None 
+            Will get the inputs to each demand point where dems[i] is True.
+            If None then get the input to all demand points, defaults to None
+        :type dems: np.ndarray
+        :returns: a 2D numpy matrix of the input floats with the first dimension being
+            the demand points, the second being the 253 inputs.
+        :rtype: np.ndarray
         """
         if dems is None:
             dems = self._all_dems
@@ -91,36 +90,36 @@ class ML253FeaturesInput():
         return sm.add_constant(X, has_constant='add')
 
 def make_traindata(link_file, sampler, x_out, y_out, crs=None, logging=False):
-    """
-    Create and save training data for a given training dataset
+    """Create and save training data for a given training dataset
 
     :param link_file: a path to a GeoDataFrame containing the data.
-    The geometry should be 2-point Shapely linestrings where 
-    the first point of each linestring is the transmission 
-    location and the second point of each linestring is the 
-    receiver location. There should be an 'ele_tr' field giving
-    the altitude of the transmission and an 'ele_gw' field with
-    the altitude of the receiver. There should be a 'success'
-    field that is an '0' if the transmission failed and a '1'
-    if the transmission succeeded.
-
-    :param sampler: a geo.sampler instance with the same units
-    of altitude as ele_tr and ele_gw
-
+        The geometry should be 2-point Shapely linestrings where 
+        the first point of each linestring is the transmission 
+        location and the second point of each linestring is the 
+        receiver location. There should be an 'ele_tr' field giving
+        the altitude of the transmission and an 'ele_gw' field with
+        the altitude of the receiver. There should be a 'success'
+        field that is an '0' if the transmission failed and a '1'
+        if the transmission succeeded.
+    :type link_file: str
+    :param sampler: a geo.sampler.LinkSampler instance with the same units
+        of altitude as ele_tr and ele_gw
+    :type sampler: class: `iot_net_planner.geo.sampler.LinkSampler`
     :param x_out: the path to put the training inputs. The file
-    should be a '.npy' file, and this extension will be appended
-    if it is not present
-
+        should be a '.npy' file, and this extension will be appended
+        if it is not present
+    :type x_out: str
     :param y_out: the path to put the training outputs. The file
-    should be a '.npy' file, and this extension will be appended
-    if it is not present
-
+        should be a '.npy' file, and this extension will be appended
+        if it is not present
+    :type y_out: str
     :param crs: a coordinate reference system to use, should be
-    a utm. Defaults to None, which means to use the link_file's crs.
-    To find a utm, look into GeoDataFrame.estimate_utm_crs
-
+        a utm. To find a utm, look into GeoDataFrame.estimate_utm_crs. 
+        If None, use the link_file's crs, defaults to None.
+    :type crs: str, optional
     :param logging: boolean representing if progress should be 
-    printed defaults to False
+        printed, defaults to False
+    :type logging: bool, optional
     """
     def ends_in(s, ending):
         return s[-1*len(ending):] == ending

@@ -1,3 +1,6 @@
+"""Provides a function for guessing some good potential gateway locations based on building corners
+"""
+
 import osmnx as ox
 import geopandas as gpd
 import pandas as pd
@@ -6,18 +9,19 @@ from scipy.cluster.vq import kmeans2
 from shapely.geometry import Point
 
 def generate_facs(area, n_facs=None, sampler=None):
-    """
-    Estimate potential gateway locations for an area. Estimated locations
+    """Estimate potential gateway locations for an area. Estimated locations
     will be the corners of buildings.
 
     :param area: a loaded KML area loaded with geo.demand_grid.load_file
-
+    :type area: gpd.GeoDataFrame
     :param n_facs: the target number of potential gateway locations to find.
-    If it can't find enough it will return as many as it finds. If no number
-    is provided defaults to returning all found facs.
-
+        If it can't find enough it will return as many as it finds. If None, 
+        returns all found facs, defaults to None.
+    :type n_facs: int, optional
     :param sampler: if a sampler is provided then it will be used to fill
-    the altitude column. Must be initialized with area's crs. Defaults to None
+        the altitude column. Must be initialized with area's crs. If None,
+        no altitude is given, defaults to None
+    :type sampler: class: `iot_net_planner.geo.sampler.LinkSampler`, optional
     """
     all_buildings = []
 
@@ -54,6 +58,7 @@ def generate_facs(area, n_facs=None, sampler=None):
         buildings.drop('altitude', axis=1, inplace=True)
 
     buildings = buildings[buildings.geometry.apply(lambda point: any(area.contains(point)))]
+    buildings.reset_index(inplace=True)
 
     if n_facs is None or len(buildings) <= n_facs:
         return buildings
@@ -63,11 +68,20 @@ def generate_facs(area, n_facs=None, sampler=None):
     means_array[:, 0] = buildings.geometry.x
     means_array[:, 1] = buildings.geometry.y
 
-    centroids, _ = kmeans2(means_array, n_facs, minit="++")
+    centroids, labels = kmeans2(means_array, n_facs, minit="++", missing="raise")        
 
     indices = []
-    for centroid in centroids:
-        centroid = Point(centroid[0], centroid[1])
-        indices.append(buildings.geometry.distance(centroid).argmin())
+    if 'altitude' in buildings:
+        for label in np.unique(labels):
+            cluster = buildings[labels == label]
+
+            if not cluster.empty:
+                max_altitude_index = cluster['altitude'].idxmax()
+                indices.append(max_altitude_index)
+
+    else:
+        for centroid in centroids:
+            centroid = Point(centroid[0], centroid[1])
+            indices.append(buildings.geometry.distance(centroid).argmin())
         
     return buildings.iloc[indices]

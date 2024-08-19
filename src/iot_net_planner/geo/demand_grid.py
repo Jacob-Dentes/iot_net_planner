@@ -1,5 +1,4 @@
-"""
-A module for creating a grid of demand points over an area file
+"""A module for creating a grid of demand points over an area file
 """
 
 import geopandas as gpd
@@ -12,13 +11,17 @@ supported_drivers['LIBKML'] = 'r'
 supported_drivers['KML'] = 'r'
 
 # Loads an area kml file. puts all layers into one GeoDataFrame
-def load_file(area_file, utm=None):
-    """
-    Load all layers of a KML file into a GeoDataFrame
+def load_file(area_file: str, utm=None) -> gpd.GeoDataFrame:
+    """Load all layers of a KML file into a GeoDataFrame
 
     :param area_file: a path to the KML file
+    :type area_file: str
+    :param utm: a crs to convert the resulting dataframe to. When None
+        the area_file's crs is used, defaults to None
+    :type utm: str, optional
 
-    :param utm: a crs to convert the resulting dataframe to
+    :return: the loaded GeoDataFrame
+    :rtype: geopandas.GeoDataFrame
     """
     layers = list(fiona.listlayers(area_file))
     gdfs = [gpd.read_file(area_file, driver='KML', layer=layer) for layer in layers]
@@ -42,39 +45,41 @@ def _make_grid(area_frame, granularity):
     dems = gpd.GeoDataFrame(geometry=points, crs=area_frame.crs)
     return dems[dems.geometry.apply(lambda point: any(area_frame.contains(point)))]
 
-def add_alts(dems, sampler):
-    """
-    Add altitudes to a demand GeoDataFrame
+def add_alts(dems: gpd.GeoDataFrame, sampler) -> gpd.GeoDataFrame:
+    """Add altitudes to a demand GeoDataFrame
 
-    :param dems: the GeoDataFrame to add altitudes to, may be modified in place
-
+    :param dems: the GeoDataFrame to add altitudes to, 
+        may be modified in place
+    :type dems: geopandas.GeoDataFrame
     :param sampler: the sampler to use to determine the altitudes
-
-    :returns: the modified GeoDataFrame
+    :type sampler: class: `iot_net_planner.geo.sampler.Sampler`
+    :return: the modified GeoDataFrame
+    :rtype: geopandas.GeoDataFrame
     """
     samples = sampler.batched_sample(dems.geometry.x, dems.geometry.y)
     dems['altitude'] = np.array(samples)
 
     return dems
 
-def generate_grid(area_file, granularity, sampler=None, utm=None):
-    """
-    Generates a grid of demand points in the area defined by area_file
+def generate_grid(area_file: str, granularity: float, sampler=None, utm=None) -> gpd.GeoDataFrame:
+    """Generates a grid of demand points in the area defined by area_file
     with the number of points determined by granularity
 
-    :param area_file: a string path to a kml file representing the area to
-    put demand points
-
-    :param granularity: a float, one point will be placed every granularity
-    units, where units are the distance in the area_file's crs or supplied utm
-
+    :param area_file: a path to a kml file representing the area to
+        put demand points
+    :type area_file: str
+    :param granularity: one point will be placed every granularity units,
+        where units are the distance in the area_file's crs or supplied utm
+    :type granularity: float
     :param sampler: a geo sampler to use to fill the altitude column.
-    If left None there will be no altitude column
-
-    :param utm: a crs for the area. If None is provided then the area_file's
-    crs is used, which may mean that granularity will be strange units
-
+        If None there will be no altitude column, defaults to None
+    :type sampler: class: `iot_net_planner.geo.sampler.Sampler`, optional
+    :param utm: a crs for the area. If None then the area_file's crs 
+        is used, which may mean that granularity will be strange units,
+        defaults to None
+    :type utm: str, optional
     :returns: a GeoDataFrame of the demand points
+    :rtype: geopandas.GeoDataFrame
     """
     area_frame = load_file(area_file, utm)
 
@@ -86,21 +91,22 @@ def generate_grid(area_file, granularity, sampler=None, utm=None):
     return dems
 
 def generate_grid_with_points(area_file, target_points, sampler=None, utm=None):
-    """
-    Tries to generate a grid of demand points with roughly target_points demand points
-    the answer may not be exact
+    """Tries to generate a grid of demand points with roughly target_points 
+    demand points the answer may not be exact
 
-    :param area_file: a string path to a kml file representing the area to put demand points
-
+    :param area_file: a path to a kml file representing the area to put 
+        demand points
+    :type area_file: str
     :param target_points: the target number of demand points, may not be exact
-
+    :type target_points: int
     :param sampler: a geo sampler to use to fill the altitude column.
-    If left None there will be no altitude column
-
-    :param utm: a crs for the area. If none is provided then the area_file's
-    crs is used, which may mean that granularity will no longer be meters
-    
+        If None there will be no altitude column, defaults to None.
+    :type sampler: class: `iot_net_planner.geo.sampler.Sampler`, optional
+    :param utm: a crs for the area. If None then the area_file's crs is used, 
+        which may mean that granularity will no longer be meters, defaults to None.
+    :type utm: str, optional
     :returns: a GeoDataFrame of the demand points
+    :rtype: geopandas.GeoDataFrame
     """
     tolerance = 5
     area_frame = load_file(area_file, utm)

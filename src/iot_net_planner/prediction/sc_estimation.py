@@ -1,3 +1,6 @@
+"""A module for estimating a standard scaler without needing collected data
+"""
+
 from iot_net_planner.prediction.ml_253_input import ML253FeaturesInput
 
 import numpy as np
@@ -5,22 +8,24 @@ from sklearn.preprocessing import StandardScaler
 from skl2onnx import to_onnx
     
 def estimate_sc_253features(dems, facs, sampler, sc_out, per_fac=10, logging=True):
-    """
-    Create a StandardScaler estimation for given demands and facilities.
+    """Create a StandardScaler estimation for given demands and facilities.
     This is intended to make a StandardScaler for cities without traindata
 
     :param dems: a GeoDataFrame of the demand points to use
-
+    :type dems: gpd.GeoDataFrame
     :param facs: a GeoDataFrame of the facilities to use
-
+    :type facs: gpd.GeoDataFrame
     :param sampler: a sampler initialized that works with dems and facs
-
+    :type sampler: class: `iot_net_planner.geo.sampler.LinkSampler`
     :param sc_out: a path to the file to output to. Should have a '.onnx'
-    file extension, this will be appended if not present
-
+        file extension, this will be appended if not present
+    :type sc_out: str
     :param per_fac: the number of demand points to use per facilitiy to
-    estimate. Should be between 1 and len(dems). Larger inputs are more
-    accurate but slower.
+        estimate. Should be between 1 and len(dems). Larger inputs are more
+        accurate but slower, defaults to 10.
+    :type per_fac: int, optional
+    :param logging: whether to log progress, defaults to True
+    :type logging: bool, optional
     """
     def ends_in(s, ending):
         return s[-1*len(ending):] == ending
