@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geo &mdash; iot_net_planner 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Prediction" href="prediction.html" />
+    <link rel="prev" title="Welcome to iot_net_planner’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            iot_net_planner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Geo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.demand_grid.add_alts"><code class="docutils literal notranslate"><span class="pre">add_alts()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.demand_grid.generate_grid"><code class="docutils literal notranslate"><span class="pre">generate_grid()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.demand_grid.generate_grid_with_points"><code class="docutils literal notranslate"><span class="pre">generate_grid_with_points()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.demand_grid.load_file"><code class="docutils literal notranslate"><span class="pre">load_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.dsm_filler.fill_file"><code class="docutils literal notranslate"><span class="pre">fill_file()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.dsm_sampler.DSMSampler"><code class="docutils literal notranslate"><span class="pre">DSMSampler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.geo.dsm_sampler.DSMSampler.batched_sample"><code class="docutils literal notranslate"><span class="pre">DSMSampler.batched_sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.geo.dsm_sampler.DSMSampler.clean_up"><code class="docutils literal notranslate"><span class="pre">DSMSampler.clean_up()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.geo.dsm_sampler.DSMSampler.sample"><code class="docutils literal notranslate"><span class="pre">DSMSampler.sample()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.estimate_facs.generate_facs"><code class="docutils literal notranslate"><span class="pre">generate_facs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.plotting.plot_demands"><code class="docutils literal notranslate"><span class="pre">plot_demands()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.plotting.plot_fac_coverage"><code class="docutils literal notranslate"><span class="pre">plot_fac_coverage()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.plotting.plot_facs"><code class="docutils literal notranslate"><span class="pre">plot_facs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.plotting.plot_facs_coverage"><code class="docutils literal notranslate"><span class="pre">plot_facs_coverage()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.sampler.LinkSampler"><code class="docutils literal notranslate"><span class="pre">LinkSampler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.geo.sampler.LinkSampler.batched_sample"><code class="docutils literal notranslate"><span class="pre">LinkSampler.batched_sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.geo.sampler.LinkSampler.sample"><code class="docutils literal notranslate"><span class="pre">LinkSampler.sample()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.geo.simplex_sampler.SimplexSampler"><code class="docutils literal notranslate"><span class="pre">SimplexSampler</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.geo.simplex_sampler.SimplexSampler.batched_sample"><code class="docutils literal notranslate"><span class="pre">SimplexSampler.batched_sample()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.geo.simplex_sampler.SimplexSampler.sample"><code class="docutils literal notranslate"><span class="pre">SimplexSampler.sample()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="prediction.html">Prediction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iot_net_planner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Geo</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/geo.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="geo">
+<h1>Geo<a class="headerlink" href="#geo" title="Link to this heading"></a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p>The key abstract class is LinkSampler, which represents a terrain data structure that can be sampled.
+The primary implemtation is DSMSampler, which represents real terrain data.</p></li>
+<li><p>This submodule also contains classes for interpolating a DSM, estimating potential gateway locations, and plotting gateways.</p></li>
+</ul>
+<p id="module-iot_net_planner.geo.demand_grid">A module for creating a grid of demand points over an area file</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.demand_grid.add_alts">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.demand_grid.</span></span><span class="sig-name descname"><span class="pre">add_alts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">GeoDataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GeoDataFrame</span></span></span><a class="headerlink" href="#iot_net_planner.geo.demand_grid.add_alts" title="Link to this definition"></a></dt>
+<dd><p>Add altitudes to a demand GeoDataFrame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>geopandas.GeoDataFrame</em>) – the GeoDataFrame to add altitudes to, 
+may be modified in place</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.Sampler</cite>) – the sampler to use to determine the altitudes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the modified GeoDataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>geopandas.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.demand_grid.generate_grid">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.demand_grid.</span></span><span class="sig-name descname"><span class="pre">generate_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GeoDataFrame</span></span></span><a class="headerlink" href="#iot_net_planner.geo.demand_grid.generate_grid" title="Link to this definition"></a></dt>
+<dd><p>Generates a grid of demand points in the area defined by area_file
+with the number of points determined by granularity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_file</strong> (<em>str</em>) – a path to a kml file representing the area to
+put demand points</p></li>
+<li><p><strong>granularity</strong> (<em>float</em>) – one point will be placed every granularity units,
+where units are the distance in the area_file’s crs or supplied utm</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.Sampler</cite>, optional) – a geo sampler to use to fill the altitude column.
+If None there will be no altitude column, defaults to None</p></li>
+<li><p><strong>utm</strong> (<em>str</em><em>, </em><em>optional</em>) – a crs for the area. If None then the area_file’s crs 
+is used, which may mean that granularity will be strange units,
+defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a GeoDataFrame of the demand points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>geopandas.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.demand_grid.generate_grid_with_points">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.demand_grid.</span></span><span class="sig-name descname"><span class="pre">generate_grid_with_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.demand_grid.generate_grid_with_points" title="Link to this definition"></a></dt>
+<dd><p>Tries to generate a grid of demand points with roughly target_points 
+demand points the answer may not be exact</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_file</strong> (<em>str</em>) – a path to a kml file representing the area to put 
+demand points</p></li>
+<li><p><strong>target_points</strong> (<em>int</em>) – the target number of demand points, may not be exact</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.Sampler</cite>, optional) – a geo sampler to use to fill the altitude column.
+If None there will be no altitude column, defaults to None.</p></li>
+<li><p><strong>utm</strong> (<em>str</em><em>, </em><em>optional</em>) – a crs for the area. If None then the area_file’s crs is used, 
+which may mean that granularity will no longer be meters, defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a GeoDataFrame of the demand points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>geopandas.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.demand_grid.load_file">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.demand_grid.</span></span><span class="sig-name descname"><span class="pre">load_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">utm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">GeoDataFrame</span></span></span><a class="headerlink" href="#iot_net_planner.geo.demand_grid.load_file" title="Link to this definition"></a></dt>
+<dd><p>Load all layers of a KML file into a GeoDataFrame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area_file</strong> (<em>str</em>) – a path to the KML file</p></li>
+<li><p><strong>utm</strong> (<em>str</em><em>, </em><em>optional</em>) – a crs to convert the resulting dataframe to. When None
+the area_file’s crs is used, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the loaded GeoDataFrame</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>geopandas.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-iot_net_planner.geo.dsm_filler">A tool for filling holes in a DSM using interpolation</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.dsm_filler.fill_file">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.dsm_filler.</span></span><span class="sig-name descname"><span class="pre">fill_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-9000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.dsm_filler.fill_file" title="Link to this definition"></a></dt>
+<dd><p>Interpolate a DSM file to fill in holes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_file</strong> (<em>str</em>) – a path to the DSM</p></li>
+<li><p><strong>output_file</strong> (<em>str</em>) – the path to save the modified DSM</p></li>
+<li><p><strong>band</strong> (<em>int</em>) – the 1-indexed band number to modify from the DSM</p></li>
+<li><p><strong>threshold</strong> (<em>int</em><em>, </em><em>optional</em>) – values below this threshold will be interpolated, 
+defaults to -9000</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class" id="module-iot_net_planner.geo.dsm_sampler">
+<dt class="sig sig-object py" id="iot_net_planner.geo.dsm_sampler.DSMSampler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.dsm_sampler.</span></span><span class="sig-name descname"><span class="pre">DSMSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">crs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raster_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.dsm_sampler.DSMSampler" title="Link to this definition"></a></dt>
+<dd><p>A link sampler that samples from a DSM. All DSM samplers should be cleaned up after use
+using self.clean_up(). Conversely, you can use the <code class="docutils literal notranslate"><span class="pre">`with</span> <span class="pre">open</span> <span class="pre">DSMSampler(crs,</span> <span class="pre">path)</span> <span class="pre">as</span> <span class="pre">sampler`</span></code>
+syntax.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>crs</strong> (<em>str</em>) – the crs of the input points, should match the demand and facility crs.</p></li>
+<li><p><strong>raster_path</strong> (<em>str</em>) – a path to the raster file to use.</p></li>
+<li><p><strong>band</strong> (<em>int</em><em>, </em><em>optional</em>) – the 0-indexed DSM band to use, can be None if only one band is present,
+defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.geo.dsm_sampler.DSMSampler.batched_sample">
+<span class="sig-name descname"><span class="pre">batched_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.dsm_sampler.DSMSampler.batched_sample" title="Link to this definition"></a></dt>
+<dd><p>Return a numpy array of the samples at the points defined by xs and ys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xs</strong> (<em>np.ndarray</em>) – the x-coordinates in the provided crs</p></li>
+<li><p><strong>ys</strong> (<em>np.ndarray</em>) – the y-coordinates in the provided crs with len(ys) == len(xs)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the samples at the provided points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.geo.dsm_sampler.DSMSampler.clean_up">
+<span class="sig-name descname"><span class="pre">clean_up</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.dsm_sampler.DSMSampler.clean_up" title="Link to this definition"></a></dt>
+<dd><p>Closes the raster file, should always be called after the sampler is no longer in use</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.geo.dsm_sampler.DSMSampler.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.dsm_sampler.DSMSampler.sample" title="Link to this definition"></a></dt>
+<dd><p>Return the raster sample at x, y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – the x-coordinate in the provided crs</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – the y-coordinate in the provided crs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the sample at (x, y)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-iot_net_planner.geo.estimate_facs">Provides a function for guessing some good potential gateway locations based on building corners</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.estimate_facs.generate_facs">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.estimate_facs.</span></span><span class="sig-name descname"><span class="pre">generate_facs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">area</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_facs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.estimate_facs.generate_facs" title="Link to this definition"></a></dt>
+<dd><p>Estimate potential gateway locations for an area. Estimated locations
+will be the corners of buildings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>area</strong> (<em>gpd.GeoDataFrame</em>) – a loaded KML area loaded with geo.demand_grid.load_file</p></li>
+<li><p><strong>n_facs</strong> (<em>int</em><em>, </em><em>optional</em>) – the target number of potential gateway locations to find.
+If it can’t find enough it will return as many as it finds. If None, 
+returns all found facs, defaults to None.</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.LinkSampler</cite>, optional) – if a sampler is provided then it will be used to fill
+the altitude column. Must be initialized with area’s crs. If None,
+no altitude is given, defaults to None</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-iot_net_planner.geo.plotting">Tools for plotting coverage. This module does not compute coverage, it only displays it</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.plotting.plot_demands">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_demands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_demands" title="Link to this definition"></a></dt>
+<dd><p>Creates and shows a matplotlib plot showing the demand points in dems</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points to show in the plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.plotting.plot_fac_coverage">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_fac_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contributions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_fac_coverage" title="Link to this definition"></a></dt>
+<dd><p>Creates and shows a matplotlib plot showing the coverage from fac to all of dems</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points to show coverage of</p></li>
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the facility points to show covverage from</p></li>
+<li><p><strong>fac</strong> (<em>int</em>) – the index into facs representing the facility point to graph</p></li>
+<li><p><strong>contributions</strong> (<em>np.ndarray</em>) – a numpy array of the contributions to each of the demand points 
+with len(contributions) == len(dems). Look into predictions.prr_model for generating predictions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.plotting.plot_facs">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_facs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">facs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_facs" title="Link to this definition"></a></dt>
+<dd><p>Creates and shows a matplotlib plot showing the facility points in facs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the facility points to show in the plot</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.geo.plotting.plot_facs_coverage">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_facs_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contributions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_facs_coverage" title="Link to this definition"></a></dt>
+<dd><p>Creates and shows a matplotlib plot showing the coverage from fac to all of dems</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points to show coverage of</p></li>
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the facility points to show covverage from</p></li>
+<li><p><strong>built</strong> (<em>list</em>) – a list of the indices into facs representing the facility points to graph</p></li>
+<li><p><strong>contributions</strong> (<em>np.ndarray</em>) – a numpy array of the contributions to each of the demand points 
+with len(contributions) == len(dems). Look into predictions.prr_model for generating predictions</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-iot_net_planner.geo.sampler">Defines an abstract class for a terrain sampler.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.geo.sampler.LinkSampler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.sampler.</span></span><span class="sig-name descname"><span class="pre">LinkSampler</span></span><a class="headerlink" href="#iot_net_planner.geo.sampler.LinkSampler" title="Link to this definition"></a></dt>
+<dd><p>An abstract base class for a terrain sampler. Terrain samplers
+support giving the terrain height at certain locations on a texture.
+Implementing classes include geo.dsm_sampler for sampling real geodata
+or geo.simplex_sampler for sampling random terrain</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.geo.sampler.LinkSampler.batched_sample">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">batched_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.sampler.LinkSampler.batched_sample" title="Link to this definition"></a></dt>
+<dd><p>Return a numpy array of the samples at the points defined by xs and ys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xs</strong> (<em>np.ndarray</em>) – the x-coordinates in the provided crs</p></li>
+<li><p><strong>ys</strong> (<em>np.ndarray</em>) – the y-coordinates in the provided crs with len(ys) == len(xs)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the samples at the provided points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.geo.sampler.LinkSampler.sample">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.sampler.LinkSampler.sample" title="Link to this definition"></a></dt>
+<dd><p>Return the raster sample at x, y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – the x-coordinate in the provided crs</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – the y-coordinate in the provided crs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the sample at (x, y)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-iot_net_planner.geo.simplex_sampler">A tool for sampling simulated random terrain</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.geo.simplex_sampler.SimplexSampler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.simplex_sampler.</span></span><span class="sig-name descname"><span class="pre">SimplexSampler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.simplex_sampler.SimplexSampler" title="Link to this definition"></a></dt>
+<dd><p>A sampler that samples from a random texture to simulate a random terrain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>random_seed</strong> (<em>int</em>) – the seed for the random texture</p></li>
+<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – a float greater than 0 controlling the size of the noise.
+A smaller number means the terrain will be generally more uniform, defaults to 1.0.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.geo.simplex_sampler.SimplexSampler.batched_sample">
+<span class="sig-name descname"><span class="pre">batched_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ys</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.simplex_sampler.SimplexSampler.batched_sample" title="Link to this definition"></a></dt>
+<dd><p>Return a numpy array of the samples at the points defined by xs and ys</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xs</strong> (<em>np.ndarray</em>) – the x-coordinates in the provided crs</p></li>
+<li><p><strong>ys</strong> (<em>np.ndarray</em>) – the y-coordinates in the provided crs with len(ys) == len(xs)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the samples at the provided points</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.geo.simplex_sampler.SimplexSampler.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.simplex_sampler.SimplexSampler.sample" title="Link to this definition"></a></dt>
+<dd><p>Return the raster sample at x, y</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – the x-coordinate in the provided crs</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – the y-coordinate in the provided crs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the sample at (x, y)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div></blockquote>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to iot_net_planner’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="prediction.html" class="btn btn-neutral float-right" title="Prediction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sander Aarts, Alfredo Rodriguez, Ali Amadeh, Jacob Dentes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

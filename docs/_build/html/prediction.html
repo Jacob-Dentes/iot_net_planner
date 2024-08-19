@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prediction &mdash; iot_net_planner 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Optimization" href="optimization.html" />
+    <link rel="prev" title="Geo" href="geo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            iot_net_planner
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="geo.html">Geo</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Prediction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.coverage.get_coverage_scalar"><code class="docutils literal notranslate"><span class="pre">get_coverage_scalar()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.coverage.get_coverages"><code class="docutils literal notranslate"><span class="pre">get_coverages()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.LR253Features"><code class="docutils literal notranslate"><span class="pre">LR253Features</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.LR253Features.dems"><code class="docutils literal notranslate"><span class="pre">LR253Features.dems</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.LR253Features.facs"><code class="docutils literal notranslate"><span class="pre">LR253Features.facs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.LR253Features.get_prr"><code class="docutils literal notranslate"><span class="pre">LR253Features.get_prr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.LR253Features.get_prr_lb"><code class="docutils literal notranslate"><span class="pre">LR253Features.get_prr_lb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.LR253Features.get_prr_ub"><code class="docutils literal notranslate"><span class="pre">LR253Features.get_prr_ub()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.LRModel"><code class="docutils literal notranslate"><span class="pre">LRModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.LRModel.forward"><code class="docutils literal notranslate"><span class="pre">LRModel.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.lr_253features.train_lr_253_model"><code class="docutils literal notranslate"><span class="pre">train_lr_253_model()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.ml_253_input.ML253FeaturesInput"><code class="docutils literal notranslate"><span class="pre">ML253FeaturesInput</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.ml_253_input.ML253FeaturesInput.get_input"><code class="docutils literal notranslate"><span class="pre">ML253FeaturesInput.get_input()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.ml_253_input.make_traindata"><code class="docutils literal notranslate"><span class="pre">make_traindata()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel"><code class="docutils literal notranslate"><span class="pre">CachedPRRModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.dems"><code class="docutils literal notranslate"><span class="pre">CachedPRRModel.dems</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.facs"><code class="docutils literal notranslate"><span class="pre">CachedPRRModel.facs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr"><code class="docutils literal notranslate"><span class="pre">CachedPRRModel.get_prr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr_lb"><code class="docutils literal notranslate"><span class="pre">CachedPRRModel.get_prr_lb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr_ub"><code class="docutils literal notranslate"><span class="pre">CachedPRRModel.get_prr_ub()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.improve_ub"><code class="docutils literal notranslate"><span class="pre">CachedPRRModel.improve_ub()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.prr_file.FileModel"><code class="docutils literal notranslate"><span class="pre">FileModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_file.FileModel.dems"><code class="docutils literal notranslate"><span class="pre">FileModel.dems</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_file.FileModel.facs"><code class="docutils literal notranslate"><span class="pre">FileModel.facs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_file.FileModel.get_prr"><code class="docutils literal notranslate"><span class="pre">FileModel.get_prr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_file.FileModel.get_prr_lb"><code class="docutils literal notranslate"><span class="pre">FileModel.get_prr_lb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_file.FileModel.get_prr_ub"><code class="docutils literal notranslate"><span class="pre">FileModel.get_prr_ub()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.prr_model.PRRModel"><code class="docutils literal notranslate"><span class="pre">PRRModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_model.PRRModel.dems"><code class="docutils literal notranslate"><span class="pre">PRRModel.dems</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_model.PRRModel.facs"><code class="docutils literal notranslate"><span class="pre">PRRModel.facs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_model.PRRModel.get_prr"><code class="docutils literal notranslate"><span class="pre">PRRModel.get_prr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_model.PRRModel.get_prr_lb"><code class="docutils literal notranslate"><span class="pre">PRRModel.get_prr_lb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_model.PRRModel.get_prr_ub"><code class="docutils literal notranslate"><span class="pre">PRRModel.get_prr_ub()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.prr_model.PRRModel.save_prrs"><code class="docutils literal notranslate"><span class="pre">PRRModel.save_prrs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.sc_estimation.estimate_sc_253features"><code class="docutils literal notranslate"><span class="pre">estimate_sc_253features()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.XG253Features"><code class="docutils literal notranslate"><span class="pre">XG253Features</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.XG253Features.dems"><code class="docutils literal notranslate"><span class="pre">XG253Features.dems</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.XG253Features.facs"><code class="docutils literal notranslate"><span class="pre">XG253Features.facs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.XG253Features.get_prr"><code class="docutils literal notranslate"><span class="pre">XG253Features.get_prr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.XG253Features.get_prr_lb"><code class="docutils literal notranslate"><span class="pre">XG253Features.get_prr_lb()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.XG253Features.get_prr_ub"><code class="docutils literal notranslate"><span class="pre">XG253Features.get_prr_ub()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.XGModel"><code class="docutils literal notranslate"><span class="pre">XGModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.XGModel.forward"><code class="docutils literal notranslate"><span class="pre">XGModel.forward()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.prediction.xg_253features.train_xg_253_model"><code class="docutils literal notranslate"><span class="pre">train_xg_253_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="optimization.html">Optimization</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">iot_net_planner</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Prediction</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/prediction.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="prediction">
+<h1>Prediction<a class="headerlink" href="#prediction" title="Link to this heading"></a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>The key abstract class is PRRModel, which represents a model for predicting packet reception rates.</dt><dd><p>The primary implemtation is XG253Features, which represents an XG boost model.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>-This submodule also contains classes for creating an input to a general model and training models.</p>
+<p id="module-iot_net_planner.prediction.coverage">Tools for predicting how much coverage a solution provides</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.coverage.get_coverage_scalar">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.coverage.</span></span><span class="sig-name descname"><span class="pre">get_coverage_scalar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.coverage.get_coverage_scalar" title="Link to this definition"></a></dt>
+<dd><p>Returns the coverage for building indices sol as predicted by prr</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sol</strong> (<em>list</em>) – an iterable of indices into prr indicating what to build</p></li>
+<li><p><strong>prr</strong> (class: <cite>iot_net_planner.prediction.prr_model.PRRModel</cite>) – a prr model initialized with demand points and facilities
+indexed in the same way as sol</p></li>
+<li><p><strong>min_weight</strong> (<em>float</em>) – returns (average coverage) * (1 - min_weight) + (worst coverage) * (min_weight).
+For example, 0.0 means only average coverage is returned, defaults to 0.0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the predicted coverage</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.coverage.get_coverages">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.coverage.</span></span><span class="sig-name descname"><span class="pre">get_coverages</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.coverage.get_coverages" title="Link to this definition"></a></dt>
+<dd><p>Returns the coverage for building indices sol as predicted by prr</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sol</strong> (<em>list</em>) – an iterable of indices into prr indicating what to build</p></li>
+<li><p><strong>prr</strong> (class: <cite>iot_net_planner.prediction.prr_model.PRRModel</cite>) – a prr model initialized with demand points and facilities
+indexed in the same way as sol</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array of the coverage for each demand point</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-iot_net_planner.prediction.lr_253features">An implementation for a logistic regression ML model with 253 inputs</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.LR253Features">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.lr_253features.</span></span><span class="sig-name descname"><span class="pre">LR253Features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">250</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.LR253Features" title="Link to this definition"></a></dt>
+<dd><p>A PRRModel API wrapper around LRModel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – the demand points to use</p></li>
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – the gateways to use</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.LinkSampler</cite>) – the sampler to use</p></li>
+<li><p><strong>model_path</strong> (<em>str</em>) – a path to the model’s .pkl file</p></li>
+<li><p><strong>sc_path</strong> (<em>str</em>) – a path to the model’s standard scaler .onnx file</p></li>
+<li><p><strong>ncols</strong> (<em>int</em><em>, </em><em>optional</em>) – the number of samples to use. The total number of
+inputs will be ncols + 3, defaults to 250</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.LR253Features.dems">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dems</span></span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.LR253Features.dems" title="Link to this definition"></a></dt>
+<dd><p>The demand points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the demand points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.LR253Features.facs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">facs</span></span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.LR253Features.facs" title="Link to this definition"></a></dt>
+<dd><p>The gateway points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the gateway points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.LR253Features.get_prr">
+<span class="sig-name descname"><span class="pre">get_prr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.LR253Features.get_prr" title="Link to this definition"></a></dt>
+<dd><p>Get the exact prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+the prrs to demand point i. If None, will generate to all
+demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prrs to
+each of the demand points where dems[i]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.LR253Features.get_prr_lb">
+<span class="sig-name descname"><span class="pre">get_prr_lb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.LR253Features.get_prr_lb" title="Link to this definition"></a></dt>
+<dd><p>Get a lower bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+a lower bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &lt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.LR253Features.get_prr_ub">
+<span class="sig-name descname"><span class="pre">get_prr_ub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.LR253Features.get_prr_ub" title="Link to this definition"></a></dt>
+<dd><p>Get an upper bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+an upper bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &gt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.LRModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.lr_253features.</span></span><span class="sig-name descname"><span class="pre">LRModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.LRModel" title="Link to this definition"></a></dt>
+<dd><p>A prediction model using logistic regression</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – a path to the model’s .pkl file</p></li>
+<li><p><strong>sc_file</strong> (<em>str</em>) – a path to the model’s standard
+scaler .onnx file</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.LRModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.LRModel.forward" title="Link to this definition"></a></dt>
+<dd><p>Run the model on input X</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> – an n by 253 numpy array of inputs</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>an n dimensional numpy array of predictions</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.lr_253features.train_lr_253_model">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.lr_253features.</span></span><span class="sig-name descname"><span class="pre">train_lr_253_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.lr_253features.train_lr_253_model" title="Link to this definition"></a></dt>
+<dd><p>Train a logistic regression model on data X and y. 
+Generates a standard scaler (sc) model and a logistic 
+regression model. Both of these models need to be used
+to construct a full model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – a numpy array of the training inputs. 
+See ml_253_input for generating the input data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – a numpy array of the training outputs</p></li>
+<li><p><strong>sc_out</strong> (<em>str</em>) – the file path to write the sc output to.
+The file extension should be ‘.onnx’, and this will be
+appended if it is not present</p></li>
+<li><p><strong>lr_out</strong> – the file path to write the logistic regression
+output to. The file extension should be ‘.pkl’, and this
+will be appended if it is not present</p></li>
+<li><p><strong>num_round</strong> (<em>int</em><em>, </em><em>optional</em>) – int for how many training rounds to perform,
+defaults to 1000</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-iot_net_planner.prediction.ml_253_input">A driver for creating an ml input for a 253 feature prr model.
+The input is 250 line segment samples, the log-distance,
+the log of the absolute altitude difference, and a constant</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.ml_253_input.ML253FeaturesInput">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.ml_253_input.</span></span><span class="sig-name descname"><span class="pre">ML253FeaturesInput</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">250</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.ml_253_input.ML253FeaturesInput" title="Link to this definition"></a></dt>
+<dd><p>A class for generating ml model inputs using the 253 feature model.
+The input contains 250 line of sight samples, the log-distance, 
+the log of the absolute altitude difference, and a constant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points to compute inputs to</p></li>
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the facility points to compute inputs from</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.LinkSampler</cite>) – an instance of geo.sampler.LinkSampler instantiated with dems and facs</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.ml_253_input.ML253FeaturesInput.get_input">
+<span class="sig-name descname"><span class="pre">get_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.ml_253_input.ML253FeaturesInput.get_input" title="Link to this definition"></a></dt>
+<dd><p>Get the input from fac to dems, includes the constant</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to get input from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em>) – a boolean numpy array of the demand points to get. 
+Will get the inputs to each demand point where dems[i] is True.
+If None then get the input to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a 2D numpy matrix of the input floats with the first dimension being
+the demand points, the second being the 253 inputs.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.ml_253_input.make_traindata">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.ml_253_input.</span></span><span class="sig-name descname"><span class="pre">make_traindata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.ml_253_input.make_traindata" title="Link to this definition"></a></dt>
+<dd><p>Create and save training data for a given training dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>link_file</strong> (<em>str</em>) – a path to a GeoDataFrame containing the data.
+The geometry should be 2-point Shapely linestrings where 
+the first point of each linestring is the transmission 
+location and the second point of each linestring is the 
+receiver location. There should be an ‘ele_tr’ field giving
+the altitude of the transmission and an ‘ele_gw’ field with
+the altitude of the receiver. There should be a ‘success’
+field that is an ‘0’ if the transmission failed and a ‘1’
+if the transmission succeeded.</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.LinkSampler</cite>) – a geo.sampler.LinkSampler instance with the same units
+of altitude as ele_tr and ele_gw</p></li>
+<li><p><strong>x_out</strong> (<em>str</em>) – the path to put the training inputs. The file
+should be a ‘.npy’ file, and this extension will be appended
+if it is not present</p></li>
+<li><p><strong>y_out</strong> (<em>str</em>) – the path to put the training outputs. The file
+should be a ‘.npy’ file, and this extension will be appended
+if it is not present</p></li>
+<li><p><strong>crs</strong> (<em>str</em><em>, </em><em>optional</em>) – a coordinate reference system to use, should be
+a utm. To find a utm, look into GeoDataFrame.estimate_utm_crs. 
+If None, use the link_file’s crs, defaults to None.</p></li>
+<li><p><strong>logging</strong> (<em>bool</em><em>, </em><em>optional</em>) – boolean representing if progress should be 
+printed, defaults to False</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-iot_net_planner.prediction.prr_cache">Adds a caching layer to a prr model. Also provides an improve ub method</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_cache.CachedPRRModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.prr_cache.</span></span><span class="sig-name descname"><span class="pre">CachedPRRModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel" title="Link to this definition"></a></dt>
+<dd><dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_cache.CachedPRRModel.dems">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dems</span></span><a class="headerlink" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.dems" title="Link to this definition"></a></dt>
+<dd><p>The demand points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the demand points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_cache.CachedPRRModel.facs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">facs</span></span><a class="headerlink" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.facs" title="Link to this definition"></a></dt>
+<dd><p>The gateway points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the gateway points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr">
+<span class="sig-name descname"><span class="pre">get_prr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr" title="Link to this definition"></a></dt>
+<dd><p>Get the exact prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+the prrs to demand point i. If None, will generate to all
+demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prrs to
+each of the demand points where dems[i]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr_lb">
+<span class="sig-name descname"><span class="pre">get_prr_lb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr_lb" title="Link to this definition"></a></dt>
+<dd><p>Get a lower bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+a lower bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &lt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr_ub">
+<span class="sig-name descname"><span class="pre">get_prr_ub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.get_prr_ub" title="Link to this definition"></a></dt>
+<dd><p>Get an upper bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+an upper bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &gt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_cache.CachedPRRModel.improve_ub">
+<span class="sig-name descname"><span class="pre">improve_ub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quantile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_cache.CachedPRRModel.improve_ub" title="Link to this definition"></a></dt>
+<dd><p>Improve the cached upper bound for fac by computing exact prrs
+to the closest quantile of demand points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – The facility index to improve ub on</p></li>
+<li><p><strong>quantile</strong> (<em>float</em>) – A float in [0.0, 1.0] representing the proportion
+of demand points to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-iot_net_planner.prediction.prr_file">A tool to load a prr model from a file</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_file.FileModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.prr_file.</span></span><span class="sig-name descname"><span class="pre">FileModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_file.FileModel" title="Link to this definition"></a></dt>
+<dd><p>Loads a PRRModel from a file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame containing the demand points</p></li>
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame containing the facility points</p></li>
+<li><p><strong>file_path</strong> (<em>str</em>) – a path to a saved PRRModel</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_file.FileModel.dems">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dems</span></span><a class="headerlink" href="#iot_net_planner.prediction.prr_file.FileModel.dems" title="Link to this definition"></a></dt>
+<dd><p>The demand points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the demand points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_file.FileModel.facs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">facs</span></span><a class="headerlink" href="#iot_net_planner.prediction.prr_file.FileModel.facs" title="Link to this definition"></a></dt>
+<dd><p>The gateway points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the gateway points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_file.FileModel.get_prr">
+<span class="sig-name descname"><span class="pre">get_prr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_file.FileModel.get_prr" title="Link to this definition"></a></dt>
+<dd><p>Get the exact prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+the prrs to demand point i. If None, will generate to all
+demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prrs to
+each of the demand points where dems[i]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_file.FileModel.get_prr_lb">
+<span class="sig-name descname"><span class="pre">get_prr_lb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_file.FileModel.get_prr_lb" title="Link to this definition"></a></dt>
+<dd><p>Get a lower bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+a lower bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &lt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_file.FileModel.get_prr_ub">
+<span class="sig-name descname"><span class="pre">get_prr_ub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_file.FileModel.get_prr_ub" title="Link to this definition"></a></dt>
+<dd><p>Get an upper bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+an upper bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &gt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-iot_net_planner.prediction.prr_model">A module containing an abstract class for predicting packet reception rates.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_model.PRRModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.prr_model.</span></span><span class="sig-name descname"><span class="pre">PRRModel</span></span><a class="headerlink" href="#iot_net_planner.prediction.prr_model.PRRModel" title="Link to this definition"></a></dt>
+<dd><p>An abstract class for a PRR model to predict packet 
+reception rate between a gateway and demand point.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_model.PRRModel.dems">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dems</span></span><a class="headerlink" href="#iot_net_planner.prediction.prr_model.PRRModel.dems" title="Link to this definition"></a></dt>
+<dd><p>The demand points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the demand points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_model.PRRModel.facs">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">facs</span></span><a class="headerlink" href="#iot_net_planner.prediction.prr_model.PRRModel.facs" title="Link to this definition"></a></dt>
+<dd><p>The gateway points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the gateway points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_model.PRRModel.get_prr">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_prr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_model.PRRModel.get_prr" title="Link to this definition"></a></dt>
+<dd><p>Get the exact prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+the prrs to demand point i. If None, will generate to all
+demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prrs to
+each of the demand points where dems[i]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_model.PRRModel.get_prr_lb">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_prr_lb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_model.PRRModel.get_prr_lb" title="Link to this definition"></a></dt>
+<dd><p>Get a lower bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+a lower bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &lt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_model.PRRModel.get_prr_ub">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_prr_ub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_model.PRRModel.get_prr_ub" title="Link to this definition"></a></dt>
+<dd><p>Get an upper bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+an upper bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &gt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.prr_model.PRRModel.save_prrs">
+<span class="sig-name descname"><span class="pre">save_prrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.prr_model.PRRModel.save_prrs" title="Link to this definition"></a></dt>
+<dd><p>Saves all prrs to a numpy saved file at filepath. The file
+will contain a len(dems) x len(facs) matrix where the entry
+at [i, j] contains the prr from gateway j to demand point i</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filepath</strong> (<em>str</em>) – the file to save to</p></li>
+<li><p><strong>logging</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether or not to log progress, defaults to False</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a 2d numpy array with shape (len(dems), len(facs))
+where entry index (i, j) is the prr to the demand point i
+by the facility j</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<p id="module-iot_net_planner.prediction.sc_estimation">A module for estimating a standard scaler without needing collected data</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.sc_estimation.estimate_sc_253features">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.sc_estimation.</span></span><span class="sig-name descname"><span class="pre">estimate_sc_253features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_fac</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.sc_estimation.estimate_sc_253features" title="Link to this definition"></a></dt>
+<dd><p>Create a StandardScaler estimation for given demands and facilities.
+This is intended to make a StandardScaler for cities without traindata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points to use</p></li>
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the facilities to use</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.LinkSampler</cite>) – a sampler initialized that works with dems and facs</p></li>
+<li><p><strong>sc_out</strong> (<em>str</em>) – a path to the file to output to. Should have a ‘.onnx’
+file extension, this will be appended if not present</p></li>
+<li><p><strong>per_fac</strong> (<em>int</em><em>, </em><em>optional</em>) – the number of demand points to use per facilitiy to
+estimate. Should be between 1 and len(dems). Larger inputs are more
+accurate but slower, defaults to 10.</p></li>
+<li><p><strong>logging</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to log progress, defaults to True</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-iot_net_planner.prediction.xg_253features">An implementation for an xgboost ML model with 253 inputs. Credit to Alfredo Rodriguez.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.XG253Features">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.xg_253features.</span></span><span class="sig-name descname"><span class="pre">XG253Features</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sampler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ncols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">250</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.XG253Features" title="Link to this definition"></a></dt>
+<dd><p>A PRRModel API wrapper around XGModel</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – the demand points to use</p></li>
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – the gateways to use</p></li>
+<li><p><strong>sampler</strong> (class: <cite>iot_net_planner.geo.sampler.LinkSampler</cite>) – the sampler to use</p></li>
+<li><p><strong>model_path</strong> (<em>str</em>) – a path to the model’s .json file</p></li>
+<li><p><strong>sc_path</strong> (<em>str</em>) – a path to the model’s standard scaler .onnx file</p></li>
+<li><p><strong>ncols</strong> (<em>int</em><em>, </em><em>optional</em>) – the number of samples to use. The total number of
+inputs will be ncols + 3, defaults to 250</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.XG253Features.dems">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dems</span></span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.XG253Features.dems" title="Link to this definition"></a></dt>
+<dd><p>The demand points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the demand points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.XG253Features.facs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">facs</span></span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.XG253Features.facs" title="Link to this definition"></a></dt>
+<dd><p>The gateway points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the gateway points associated with this model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>gpd.GeoDataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.XG253Features.get_prr">
+<span class="sig-name descname"><span class="pre">get_prr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.XG253Features.get_prr" title="Link to this definition"></a></dt>
+<dd><p>Get the exact prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+the prrs to demand point i. If None, will generate to all
+demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prrs to
+each of the demand points where dems[i]</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.XG253Features.get_prr_lb">
+<span class="sig-name descname"><span class="pre">get_prr_lb</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.XG253Features.get_prr_lb" title="Link to this definition"></a></dt>
+<dd><p>Get a lower bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+a lower bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &lt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.XG253Features.get_prr_ub">
+<span class="sig-name descname"><span class="pre">get_prr_ub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.XG253Features.get_prr_ub" title="Link to this definition"></a></dt>
+<dd><p>Get an upper bound on prrs between fac and the self.dems[dems]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fac</strong> (<em>int</em>) – the facility to generate prrs from</p></li>
+<li><p><strong>dems</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – a boolean numpy array with length equal to the
+number of demand points, dems[i] == True means to generate 
+an upper bound on the prrs to demand point i. If None,
+will generate to all demand points, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a numpy array with length dems.sum() of the prr upper
+bounds to each of the demand points where dems[i]. This means
+that self.get_prr_ub(fac) &gt;= self.get_prr(fac)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.XGModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.xg_253features.</span></span><span class="sig-name descname"><span class="pre">XGModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_inputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">252</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.XGModel" title="Link to this definition"></a></dt>
+<dd><p>A prediction model using XG boost</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – a path to the model’s .json file</p></li>
+<li><p><strong>sc_file</strong> (<em>str</em>) – a path to the model’s standard
+scaler .onnx file</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.XGModel.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.XGModel.forward" title="Link to this definition"></a></dt>
+<dd><p>Run the model on input X</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> – an n by 253 numpy array of inputs</p>
+</dd>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>an n dimensional numpy array of predictions</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iot_net_planner.prediction.xg_253features.train_xg_253_model">
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.prediction.xg_253features.</span></span><span class="sig-name descname"><span class="pre">train_xg_253_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sc_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xg_out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_round</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.prediction.xg_253features.train_xg_253_model" title="Link to this definition"></a></dt>
+<dd><p>Train an xg_boost model on data X and y. Generates
+a standard scaler (sc) model and an xg boost model.
+Both of these models need to be used to construct
+a full model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – a numpy array of the training inputs. 
+See ml_253_input for generating the input data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – a numpy array of the training outputs</p></li>
+<li><p><strong>sc_out</strong> (<em>str</em>) – the file path to write the sc output to.
+The file extension should be ‘.onnx’, and this will be
+appended if it is not present</p></li>
+<li><p><strong>xg_out</strong> (<em>str</em>) – the file path to write the xg boost
+output to. The file extension should be ‘.json’, and this
+will be appended if it is not present</p></li>
+<li><p><strong>num_round</strong> (<em>int</em><em>, </em><em>optional</em>) – int for how many training rounds to perform,
+defaults to 1000</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div></blockquote>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="geo.html" class="btn btn-neutral float-left" title="Geo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="optimization.html" class="btn btn-neutral float-right" title="Optimization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Sander Aarts, Alfredo Rodriguez, Ali Amadeh, Jacob Dentes.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
