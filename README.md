@@ -30,8 +30,11 @@ For users without knowledge of Python, to install the package:
 1. Install the package with `pip install .`
 1. Note that if you close the command prompt, you need to perform steps 4. and 6. again when opening a new prompt
 
+## Documentation
+For users with technical knowledge wanting fine grained control, the documentation can be found [here](https://jacob-dentes.github.io/iot_net_planner/).
+
 ## Usage
-Documentation is in its early stages. The documented pipeline stages are:
+For users with a typical use case, this section will walk you through the stages of using the package:
 - [DSM creation](#dsm-creation)
 - [Defining a coverage area](#creating-coverage-area)
 - [Defining potential gateways](#finding-potential-gateways)
