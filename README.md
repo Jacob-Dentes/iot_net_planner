@@ -40,6 +40,7 @@ For users with a typical use case, this section will walk you through the stages
 - [Defining potential gateways](#finding-potential-gateways)
 - [Training a model](#training-a-model)
 - [Making Predictions](#making-predictions)
+- [Performing Optimization](#performing-optimization)
 
 ### DSM Creation
 A Digital Surface Model ([DSM](https://en.wikipedia.org/wiki/Digital_elevation_model)) is an image that gives an elevation at every point in an area. Our models use this elevation to predict how much coverage a gateway might provide. We need a DSM that encloses the whole desired coverage region and all potential gateways. As an example, here is an aspect render for a DSM created for an area around Ithaca, New York:
@@ -188,6 +189,19 @@ In this section you will use the X and y files from [above](#make-the-training-d
 
 ### Making Predictions
 In this section you will use the model created in [Training a Model](#training-a-model) to generate predictions for how much coverage potential gateways provide. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python scripts/make_predictions.py dsm_path demands_path potential_gateways_path sc_path xg_path out_path` where `dsm_path` is the path to the [DSM](#dsm-creation) on your computer, `demands_path` is the path to the demand geojson file created in [Creating Coverage Area](#creating-coverage-area), `potential_gateways_path` is the path to the potential gateway geojson file created in [Finding Potential Gateways](#finding-potential-gateways), `sc_path` is the path to the ".onnx" standard scaler file created in [Training a Model](#training-a-model), `xg_path` is the path to the ".json" model created in [Training a Model](#training-a-model), and `out_path` is the desired path to the new prediction file, ending in ".npy". You can move and rename the prediction file, but be sure to keep the ".npy" extension.
+
+### Performing Optimization
+In this section you will use the prediction file generated in [Making Predictions](#making-predictions) to determine the best placement of gateways. There are two optimization modes outlined in the following sections. The first mode takes a [budget](#fixed-budget) (i.e. a number of gateways) and places those gateways to maximize coverage. The second mode takes a [desired coverage](#target-coverage) and places gateways to try to achieve that coverage as cheaply as possible.
+
+#### Fixed Budget
+In this section you will provide a fixed target budget and the tool will find the best placement of gateways to maximize coverage without exceeding the budget. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python scripts/maximize_coverage.py demands_path potential_gateways_path predictions_path out_path budget` where `demands_path` is the path to the demand geojson file created in [Creating Coverage Area](#creating-coverage-area), `potential_gateways_path` is the path to the potential gateway geojson file created in [Finding Potential Gateways](#finding-potential-gateways), `predictions_path` is a path to the predictions file created in [Making Predictions](#making-predictions), `out_path` is the desired path to the file containing the solution ending in ".json", and `budget` is the cost to stay under (in number of gateways). 
+
+For advanced users: you can customize the cost of the potential gateway locations by providing a `cost` column in the GeoDataFrame, otherwise the cost for all gateways is assumed to be `1`.
+
+#### Target Coverage
+In this section you will provide a desired coverage amount and the tool will find the cheapest placement of gateways that achieves that coverage. In the command prompt, ensure that you are in the correct directory and have the environment activated (steps 4. and 6. of the [non-python user instructions](#non-python-users)). Then, run `python scripts/minimize_budget.py dem_file fac_file prr_file out_file coverage` where `demands_path` is the path to the demand geojson file created in [Creating Coverage Area](#creating-coverage-area), `potential_gateways_path` is the path to the potential gateway geojson file created in [Finding Potential Gateways](#finding-potential-gateways), `predictions_path` is a path to the predictions file created in [Making Predictions](#making-predictions), `out_path` is the desired path to the file containing the solution ending in ".json", and `coverage` is a decimal in the range [0.0, 1.0) representing the desired target coverage. This represents the probability that a given transmission is received (0.5 means that half of all transmissions are received; if a transmitter sent a packet every hour for a day under `0.5` coverage then there is about `99.999994%` chance one of the packets is received). 
+
+For advanced users: you can customize the cost of the potential gateway locations by providing a `cost` column in the GeoDataFrame, otherwise the cost for all gateways is assumed to be `1`. You can also customize the amount of desired coverage on a per-point basis by providing a `coverage` column in the demands GeoDataFrame and omitting the last argument to the command.
 
 ## Acknowledgement
 The development of these tools was supported by the NSF under grant CNS-1952063.
