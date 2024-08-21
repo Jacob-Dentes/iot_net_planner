@@ -5,7 +5,7 @@ from iot_net_planner.optimization.opt_coverage_model import OPTCoverageModel
 
 class SCIPModel(OPTCoverageModel):
     @staticmethod
-    def solve_coverage(budget, min_weight, dems, facs, prr, logging=True):
+    def solve_coverage(budget, min_weight, dems, facs, prr, blob_size=10, logging=True):
         """Solves a CIP for coverage
 
         :param budget: The maximum allowable amount to spend
@@ -19,11 +19,17 @@ class SCIPModel(OPTCoverageModel):
         :type facs: gpd.GeoDataFrame
         :param prr: A CachedPRRModel initialized with dems and facs
         :type prr: `iot_net_planner.prediction.prr_cache.CachedPRRModel`
+        :param blob_size: the number of points in an indexact blob, defaults to 10
+        :type blob_size: int, optional
+        :param logging: whether to log, defaults to True
+        :type logging: bool, optional
         :return: a set of indices of facs to build
         :rtype: set
         """
         rlen = lambda l: range(len(l))
         f = facs['cost'].to_numpy()
+
+        prr = OPTCoverageModel._blobify(facs, prr, blob_size)
    
         # Get a matrix with contributions
         A = np.empty((len(dems), len(facs)))

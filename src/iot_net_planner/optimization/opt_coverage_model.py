@@ -2,7 +2,38 @@
 """
 from abc import ABC, abstractmethod
 
+from sklearn.neighbors import NearestNeighbors
+import numpy as np
+
 class OPTCoverageModel(ABC):
+    @staticmethod
+    # Modify prrs for blobs of size k
+    def _blobify(facs, prrs, k):
+        if "exact" not in facs:
+            return prrs
+        
+        k = min(k, (~facs['exact']).sum())
+        
+        prrs = prrs.copy()
+        false_mask = facs['exact'] == False
+        false_indices = facs.index[false_mask].tolist()
+        false_coords = np.array(list(zip(facs.geometry.x[false_mask], facs.geometry.y[false_mask])))
+
+        nbrs = NearestNeighbors(n_neighbors=k)
+        nbrs.fit(false_coords)
+
+        index_map = {i: original_idx for i, original_idx in enumerate(false_indices)}
+
+        for i in false_indices:
+            distances, indices = nbrs.kneighbors([coords[i]], n_neighbors=k)
+
+            nearest_false_indices = [index_map[idx] for idx in indices[0]]
+            min_value = np.min(prrs[nearest_false_indices, :], axis=0)
+
+            prrs[i, :] = min_value
+
+        return prrs           
+                
     @staticmethod
     @abstractmethod
     def solve_coverage(budget, min_weight, dems, facs, prr, logging=True):

@@ -82,7 +82,7 @@ class ColPricer(Pricer):
          
 class BNPModel(OPTCoverageModel):
     @staticmethod
-    def solve_coverage(budget, min_weight, dems, facs, prr, qinc=1.0, logging=True):
+    def solve_coverage(budget, min_weight, dems, facs, prr, qinc=1.0, blob_size=10, logging=True):
         """Solves a CIP for coverage with branch and price
 
         :param budget: The maximum allowable amount to spend
@@ -96,11 +96,19 @@ class BNPModel(OPTCoverageModel):
         :type facs: gpd.GeoDataFrame
         :param prr: A CachedPRRModel initialized with dems and facs
         :type prr: `iot_net_planner.prediction.prr_cache.CachedPRRModel`
+        :param qinc: the quantile increment each step, defaults to 1.0
+        :type qinc: float, optional
+        :param blob_size: the number of points in an indexact blob, defaults to 10
+        :type blob_size: int, optional
+        :param logging: whether to log, defaults to True
+        :type logging: bool, optional
         :return: a set of indices of facs to build
         :rtype: set
         """
         rlen = lambda l: range(len(l))
         f = facs['cost'].to_numpy() 
+
+        prr = OPTCoverageModel._blobify(facs, prr, blob_size)
    
         # Get a matrix with lower bounded contributions
         A = np.empty((len(dems), len(facs)))
