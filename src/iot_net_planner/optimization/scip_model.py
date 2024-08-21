@@ -2,8 +2,9 @@ import numpy as np
 from pyscipopt import Model, quicksum
 
 from iot_net_planner.optimization.opt_coverage_model import OPTCoverageModel
+from iot_net_planner.optimization.opt_budget_model import OPTBudgetModel
 
-class SCIPModel(OPTCoverageModel):
+class SCIPModel(OPTCoverageModel, OPTBudgetModel):
     @staticmethod
     def solve_coverage(budget, min_weight, dems, facs, prr, blob_size=10, logging=True):
         """Solves a CIP for coverage
@@ -26,11 +27,12 @@ class SCIPModel(OPTCoverageModel):
         :return: a set of indices of facs to build
         :rtype: set
         """
+        dems = dems.reset_index()
+        facs = facs.reset_index()
+
         rlen = lambda l: range(len(l))
         f = facs['cost'].to_numpy()
 
-        prr = OPTCoverageModel._blobify(facs, prr, blob_size)
-   
         # Get a matrix with contributions
         A = np.empty((len(dems), len(facs)))
 
@@ -38,7 +40,8 @@ class SCIPModel(OPTCoverageModel):
             if logging:
                 print(f" {i+1} / {len(dems)}", end="\r")
             A[:, i] = prr.get_prr(i)
-        prrs = A
+        A = OPTCoverageModel._blobify(facs, A, blob_size)
+        prrs = A.copy()
         A = -1 * np.log(1 - A)
     
         m = Model("CIP")
@@ -67,3 +70,38 @@ class SCIPModel(OPTCoverageModel):
             print(sol)
 
         return sol
+
+    @staticmethod
+    def solve_budget(coverage, dems, facs, prr, blob_size=10, logging=True):
+        dems = dems.reset_index()
+        facs = facs.reset_index()
+        
+        rlen = lambda l: range(len(l))
+        f = facs['cost'].to_numpy()
+   
+        # Get a matrix with contributions
+        A = np.empty((len(dems), len(facs)))
+
+        for i in rlen(facs):
+            if logging:
+                print(f" {i+1} / {len(dems)}", end="\r")
+            A[:, i] = prr.get_prr(i)
+        prrs = A
+        A = OPTCoverageModel._blobify(facs, A, blob_size)
+
+        A = -1 * np.log(1 - A)
+        r = -1 * np.log(1 - coverage)
+
+        if A @ np.ones(len(facs)) < r:
+            return set(rlen(facs))
+
+        m = Model("CIP")
+        m.hideOutput(not logging)
+        x = {i: m.addVar(vtype='B', lb=facs['built'][i]) for i in rlen(facs)}
+
+        for i in rlen(dems):
+            m.addCons(quicksum(A[i, j] * x[j] for j in rlen(facs)) >= r[i])
+
+        m.setObjective(quicksum(f[j] * x[j] for j in rlen(facs), "minimize")
+
+        m.optimize()
