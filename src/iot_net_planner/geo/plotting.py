@@ -8,7 +8,7 @@ import contextily as ctx
 from matplotlib.colors import Normalize
 from matplotlib.cm import ScalarMappable
 
-def plot_fac_coverage(dems, facs, fac, contributions):
+def plot_fac_coverage(dems, facs, fac, contributions, save_to=None):
     """Creates and shows a matplotlib plot showing the coverage from fac to all of dems
 
     :param dems: a GeoDataFrame of the demand points to show coverage of
@@ -20,10 +20,13 @@ def plot_fac_coverage(dems, facs, fac, contributions):
     :param contributions: a numpy array of the contributions to each of the demand points 
         with len(contributions) == len(dems). Look into predictions.prr_model for generating predictions
     :type contributions: np.ndarray
+    :param save_to: is None will show the plot, otherwise it is the path to save the file to,
+        defaults to None
+    :type save_to: str, optional
     """
-    return plot_facs_coverage(dems, facs, [fac], contributions)
+    return plot_facs_coverage(dems, facs, [fac], contributions, save_to)
     
-def plot_facs_coverage(dems, facs, built, contributions):
+def plot_facs_coverage(dems, facs, built, contributions, save_to=None):
     """Creates and shows a matplotlib plot showing the coverage from fac to all of dems
 
     :param dems: a GeoDataFrame of the demand points to show coverage of
@@ -35,6 +38,9 @@ def plot_facs_coverage(dems, facs, built, contributions):
     :param contributions: a numpy array of the contributions to each of the demand points 
         with len(contributions) == len(dems). Look into predictions.prr_model for generating predictions
     :type contributions: np.ndarray
+    :param save_to: is None will show the plot, otherwise it is the path to save the file to,
+        defaults to None
+    :type save_to: str, optional
     """
     dems = dems.to_crs(epsg=3857)
     facs = facs.to_crs(epsg=3857)
@@ -63,14 +69,20 @@ def plot_facs_coverage(dems, facs, built, contributions):
     cbar.set_ticks([0.0, 0.5, 1.0])
     cbar.set_ticklabels(['0.0', '0.5', '1.0'])    
 
-    plt.show()
+    if save_to is None:
+        plt.show()
+    else:
+        plt.savefig(save_to)
     
 
-def plot_demands(dems):
+def plot_demands(dems, save_to=None):
     """Creates and shows a matplotlib plot showing the demand points in dems
 
     :param dems: a GeoDataFrame of the demand points to show in the plot
     :type dems: gpd.GeoDataFrame
+    :param save_to: is None will show the plot, otherwise it is the path to save the file to,
+        defaults to None
+    :type save_to: str, optional
     """
     dems = dems.to_crs(epsg=3857)
     fig, ax = plt.subplots(1, 1, figsize=(10, 10))
@@ -79,12 +91,18 @@ def plot_demands(dems):
     
     ctx.add_basemap(ax, crs=dems.crs.to_string(), source=ctx.providers.OpenStreetMap.Mapnik)
 
-    plt.show()
+    if save_to is None:
+        plt.show()
+    else:
+        plt.savefig(save_to)
 
-def plot_facs(facs):
+def plot_facs(facs, save_to=None):
     """Creates and shows a matplotlib plot showing the facility points in facs
 
     :param facs: a GeoDataFrame of the facility points to show in the plot
     :type facs: gpd.GeoDataFrame
+    :param save_to: is None will show the plot, otherwise it is the path to save the file to,
+        defaults to None
+    :type save_to: str, optional
     """
-    plot_demands(facs)
+    plot_demands(facs, save_to)
