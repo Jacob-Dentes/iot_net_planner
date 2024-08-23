@@ -313,18 +313,22 @@ no altitude is given, defaults to None</p></li>
 <p id="module-iot_net_planner.geo.plotting">Tools for plotting coverage. This module does not compute coverage, it only displays it</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="iot_net_planner.geo.plotting.plot_demands">
-<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_demands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_demands" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_demands</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_demands" title="Link to this definition"></a></dt>
 <dd><p>Creates and shows a matplotlib plot showing the demand points in dems</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points to show in the plot</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points to show in the plot</p></li>
+<li><p><strong>save_to</strong> (<em>str</em><em>, </em><em>optional</em>) – is None will show the plot, otherwise it is the path to save the file to,
+defaults to None</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="iot_net_planner.geo.plotting.plot_fac_coverage">
-<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_fac_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contributions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_fac_coverage" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_fac_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_fac_coverage" title="Link to this definition"></a></dt>
 <dd><p>Creates and shows a matplotlib plot showing the coverage from fac to all of dems</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -334,6 +338,8 @@ no altitude is given, defaults to None</p></li>
 <li><p><strong>fac</strong> (<em>int</em>) – the index into facs representing the facility point to graph</p></li>
 <li><p><strong>contributions</strong> (<em>np.ndarray</em>) – a numpy array of the contributions to each of the demand points 
 with len(contributions) == len(dems). Look into predictions.prr_model for generating predictions</p></li>
+<li><p><strong>save_to</strong> (<em>str</em><em>, </em><em>optional</em>) – is None will show the plot, otherwise it is the path to save the file to,
+defaults to None</p></li>
 </ul>
 </dd>
 </dl>
@@ -341,18 +347,22 @@ with len(contributions) == len(dems). Look into predictions.prr_model for genera
 
 <dl class="py function">
 <dt class="sig sig-object py" id="iot_net_planner.geo.plotting.plot_facs">
-<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_facs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">facs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_facs" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_facs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_facs" title="Link to this definition"></a></dt>
 <dd><p>Creates and shows a matplotlib plot showing the facility points in facs</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the facility points to show in the plot</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the facility points to show in the plot</p></li>
+<li><p><strong>save_to</strong> (<em>str</em><em>, </em><em>optional</em>) – is None will show the plot, otherwise it is the path to save the file to,
+defaults to None</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="iot_net_planner.geo.plotting.plot_facs_coverage">
-<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_facs_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contributions</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_facs_coverage" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">iot_net_planner.geo.plotting.</span></span><span class="sig-name descname"><span class="pre">plot_facs_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">built</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contributions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_to</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.geo.plotting.plot_facs_coverage" title="Link to this definition"></a></dt>
 <dd><p>Creates and shows a matplotlib plot showing the coverage from fac to all of dems</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -362,6 +372,8 @@ with len(contributions) == len(dems). Look into predictions.prr_model for genera
 <li><p><strong>built</strong> (<em>list</em>) – a list of the indices into facs representing the facility points to graph</p></li>
 <li><p><strong>contributions</strong> (<em>np.ndarray</em>) – a numpy array of the contributions to each of the demand points 
 with len(contributions) == len(dems). Look into predictions.prr_model for generating predictions</p></li>
+<li><p><strong>save_to</strong> (<em>str</em><em>, </em><em>optional</em>) – is None will show the plot, otherwise it is the path to save the file to,
+defaults to None</p></li>
 </ul>
 </dd>
 </dl>

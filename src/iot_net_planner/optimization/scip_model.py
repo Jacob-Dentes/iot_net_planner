@@ -102,6 +102,6 @@ class SCIPModel(OPTCoverageModel, OPTBudgetModel):
         for i in rlen(dems):
             m.addCons(quicksum(A[i, j] * x[j] for j in rlen(facs)) >= r[i])
 
-        m.setObjective(quicksum(f[j] * x[j] for j in rlen(facs), "minimize")
+        m.setObjective(quicksum(f[j] * x[j] for j in rlen(facs)), "minimize")
 
         m.optimize()

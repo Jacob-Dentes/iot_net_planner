@@ -56,6 +56,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#iot_net_planner.optimization.scip_model.SCIPModel"><code class="docutils literal notranslate"><span class="pre">SCIPModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.optimization.scip_model.SCIPModel.solve_budget"><code class="docutils literal notranslate"><span class="pre">SCIPModel.solve_budget()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#iot_net_planner.optimization.scip_model.SCIPModel.solve_coverage"><code class="docutils literal notranslate"><span class="pre">SCIPModel.solve_coverage()</span></code></a></li>
 </ul>
 </li>
@@ -103,7 +104,7 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.optimization.bnp_model.</span></span><span class="sig-name descname"><span class="pre">BNPModel</span></span><a class="headerlink" href="#iot_net_planner.optimization.bnp_model.BNPModel" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="iot_net_planner.optimization.bnp_model.BNPModel.solve_coverage">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qinc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.optimization.bnp_model.BNPModel.solve_coverage" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qinc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.optimization.bnp_model.BNPModel.solve_coverage" title="Link to this definition"></a></dt>
 <dd><p>Solves a CIP for coverage with branch and price</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -114,6 +115,9 @@
 <li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame for the potential gateways. It should have a ‘cost’
 field representing how much each gateway costs (pricing is relative)</p></li>
 <li><p><strong>prr</strong> (<cite>iot_net_planner.prediction.prr_cache.CachedPRRModel</cite>) – A CachedPRRModel initialized with dems and facs</p></li>
+<li><p><strong>qinc</strong> (<em>float</em><em>, </em><em>optional</em>) – the quantile increment each step, defaults to 1.0</p></li>
+<li><p><strong>blob_size</strong> (<em>int</em><em>, </em><em>optional</em>) – the number of points in an indexact blob, defaults to 10</p></li>
+<li><p><strong>logging</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to log, defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -133,17 +137,17 @@ field representing how much each gateway costs (pricing is relative)</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.optimization.opt_coverage_model.</span></span><span class="sig-name descname"><span class="pre">OPTCoverageModel</span></span><a class="headerlink" href="#iot_net_planner.optimization.opt_coverage_model.OPTCoverageModel" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
 <dt class="sig sig-object py" id="iot_net_planner.optimization.opt_coverage_model.OPTCoverageModel.solve_coverage">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.optimization.opt_coverage_model.OPTCoverageModel.solve_coverage" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.optimization.opt_coverage_model.OPTCoverageModel.solve_coverage" title="Link to this definition"></a></dt>
 <dd><p>Solves a CIP for coverage</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>budget</strong> (<em>float</em>) – The maximum allowable amount to spend</p></li>
+<li><p><strong>budget</strong> (<em>float</em>) – the maximum allowable amount to spend</p></li>
 <li><p><strong>min_weight</strong> (<em>float</em>) – The objective is min_weight * worst coverage + (1 - min_weight) * average coverage</p></li>
 <li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points</p></li>
 <li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame for the potential gateways. It should have a ‘cost’
 field representing how much each gateway costs (pricing is relative)</p></li>
-<li><p><strong>prr</strong> (<cite>iot_net_planner.prediction.prr_cache.CachedPRRModel</cite>) – A CachedPRRModel initialized with dems and facs</p></li>
+<li><p><strong>prr</strong> (class: <cite>iot_net_planner.prediction.prr_cache.CachedPRRModel</cite>) – A CachedPRRModel initialized with dems and facs</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -161,8 +165,32 @@ field representing how much each gateway costs (pricing is relative)</p></li>
 <dt class="sig sig-object py" id="iot_net_planner.optimization.scip_model.SCIPModel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">iot_net_planner.optimization.scip_model.</span></span><span class="sig-name descname"><span class="pre">SCIPModel</span></span><a class="headerlink" href="#iot_net_planner.optimization.scip_model.SCIPModel" title="Link to this definition"></a></dt>
 <dd><dl class="py method">
+<dt class="sig sig-object py" id="iot_net_planner.optimization.scip_model.SCIPModel.solve_budget">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve_budget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">coverage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.optimization.scip_model.SCIPModel.solve_budget" title="Link to this definition"></a></dt>
+<dd><p>Solves a CIP for budget. Note that this may be infeasible, 
+in which case all facs will be returned</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>coverage</strong> (<em>np.ndarray</em>) – a numpy array with the same length as dems
+denoting the required prr at each demand point</p></li>
+<li><p><strong>dems</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the demand points</p></li>
+<li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame of the potential gateways</p></li>
+<li><p><strong>prr</strong> (class: <cite>iot_net_planner.prediction.prr_cache.CachedPRRModel</cite>) – a CachedPRRModel initialized with dems and facs</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a set of indices of facs to build</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>set</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="iot_net_planner.optimization.scip_model.SCIPModel.solve_coverage">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.optimization.scip_model.SCIPModel.solve_coverage" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">solve_coverage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">budget</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dems</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">facs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blob_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#iot_net_planner.optimization.scip_model.SCIPModel.solve_coverage" title="Link to this definition"></a></dt>
 <dd><p>Solves a CIP for coverage</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -173,6 +201,8 @@ field representing how much each gateway costs (pricing is relative)</p></li>
 <li><p><strong>facs</strong> (<em>gpd.GeoDataFrame</em>) – a GeoDataFrame for the potential gateways. It should have a ‘cost’
 field representing how much each gateway costs (pricing is relative)</p></li>
 <li><p><strong>prr</strong> (<cite>iot_net_planner.prediction.prr_cache.CachedPRRModel</cite>) – A CachedPRRModel initialized with dems and facs</p></li>
+<li><p><strong>blob_size</strong> (<em>int</em><em>, </em><em>optional</em>) – the number of points in an indexact blob, defaults to 10</p></li>
+<li><p><strong>logging</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to log, defaults to True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
