@@ -54,7 +54,7 @@ To create a DSM using USGS data, head to the [USGS Lidar Explorer](https://apps.
 
 ![Image showing the location of the lidar availability toggle on the USGS website](https://i.imgur.com/gGI4fGe.png)
 
-It is alright if there are some gaps, but consider finding another source of geodata if much of the area is not available. Uncheck the "Show where Lidar is available" box once you have seen if your area is available. Now you can define the area the DSM will cover. You will choose a rectangular region; it should completely enclose the desired coverage area and all potential gateway locations. Check the box "Define Area of Interest" (1), click the rectangle icon in the top left of the map (2), click to define he first corner of the desired region (3), and then click to define the second corner of the region (4). 
+It is alright if there are some gaps, but consider finding another source of geodata if much of the area is not available. Uncheck the "Show where Lidar is available" box once you have seen if your area is available. Now you can define the area the DSM will cover. You will choose a rectangular region; it should completely enclose the desired coverage area and all potential gateway locations. Check the box "Define Area of Interest" (1), click the rectangle icon in the top left of the map (2), click to define the first corner of the desired region (3), and then click to define the second corner of the region (4). 
 
 ![Image showing the locations of (1) - (4) on the USGS website](https://i.imgur.com/T7ShtJe.png)
 
