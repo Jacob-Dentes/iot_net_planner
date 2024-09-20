@@ -5,7 +5,8 @@ import osmnx as ox
 import geopandas as gpd
 import pandas as pd
 import numpy as np
-from scipy.cluster.vq import kmeans2
+# from scipy.cluster.vq import kmeans2
+from sklearn.cluster import MiniBatchKMeans
 from shapely.geometry import Point
 
 def generate_facs(area, n_facs=None, sampler=None):
@@ -68,7 +69,12 @@ def generate_facs(area, n_facs=None, sampler=None):
     means_array[:, 0] = buildings.geometry.x
     means_array[:, 1] = buildings.geometry.y
 
-    centroids, labels = kmeans2(means_array, n_facs, minit="++", missing="raise")        
+    # centroids, labels = kmeans2(means_array, n_facs, minit="++", missing="raise")        
+    kmeans = MiniBatchKMeans(n_clusters=n_facs, init='k-means++')
+    kmeans.fit(means_array)
+
+    centroids = kmeans.cluster_centers_
+    labels = kmeans.labels_
 
     indices = []
     if 'altitude' in buildings:
