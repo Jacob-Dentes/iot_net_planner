@@ -25,7 +25,7 @@ class OPTCoverageModel(ABC):
         index_map = {i: original_idx for i, original_idx in enumerate(false_indices)}
 
         for i in false_indices:
-            distances, indices = nbrs.kneighbors([coords[i]], n_neighbors=k)
+            distances, indices = nbrs.kneighbors([false_coords[i]], n_neighbors=k)
 
             nearest_false_indices = [index_map[idx] for idx in indices[0]]
             min_value = np.min(prrs[nearest_false_indices, :], axis=0)

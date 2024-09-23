@@ -27,8 +27,8 @@ class SCIPModel(OPTCoverageModel, OPTBudgetModel):
         :return: a set of indices of facs to build
         :rtype: set
         """
-        dems = dems.reset_index()
-        facs = facs.reset_index()
+        dems = dems.reset_index(drop=True)
+        facs = facs.reset_index(drop=True)
 
         rlen = lambda l: range(len(l))
         f = facs['cost'].to_numpy()
