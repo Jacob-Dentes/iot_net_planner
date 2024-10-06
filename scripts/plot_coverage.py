@@ -17,9 +17,9 @@ def main(dem_file, fac_file, prr_file, sol_file, write_to_file=None):
         sol_obj = json.load(f)      
         sol = sol_obj['sol']
 
-    prr = FileModel(dems, facs, model_file)
+    prr = FileModel(dems, facs, prr_file)
     coverages = get_coverages(sol, prr)
-    plot_facs_coverage(dems, facs, sol, write_to_file)    
+    plot_facs_coverage(dems, facs, sol, coverages, write_to_file)    
 
 if __name__ == "__main__":
     args = list(sys.argv[1:])

@@ -6,12 +6,13 @@ from iot_net_planner.optimization.opt_budget_model import OPTBudgetModel
 
 class SCIPModel(OPTCoverageModel, OPTBudgetModel):
     @staticmethod
-    def solve_coverage(budget, min_weight, dems, facs, prr, blob_size=10, logging=True):
+    def solve_coverage(budget, min_weight, dems, facs, prr, threshold_max=0.5, threshold_weight=0.0, blob_size=10, logging=True):
         """Solves a CIP for coverage
 
         :param budget: The maximum allowable amount to spend
         :type budget: float
-        :param min_weight: The objective is min_weight * worst coverage + (1 - min_weight) * average coverage
+        :param min_weight: The weighting of worst covered point's coverage, the rest goes
+            to threshold and average coverage
         :type min_weight: float
         :param dems: a GeoDataFrame of the demand points
         :type dems: gpd.GeoDataFrame
@@ -20,6 +21,10 @@ class SCIPModel(OPTCoverageModel, OPTBudgetModel):
         :type facs: gpd.GeoDataFrame
         :param prr: A CachedPRRModel initialized with dems and facs
         :type prr: `iot_net_planner.prediction.prr_cache.CachedPRRModel`
+        :param threshold_max: Maximize the fraction of demand points with at least this coverage
+        :type threshold_max: float
+        :param threshold_weight: The weighting of fraction exceeding threshold_max
+        :type threshold_weight: float
         :param blob_size: the number of points in an indexact blob, defaults to 10
         :type blob_size: int, optional
         :param logging: whether to log, defaults to True
@@ -43,6 +48,7 @@ class SCIPModel(OPTCoverageModel, OPTBudgetModel):
         A = OPTCoverageModel._blobify(facs, A, blob_size)
         prrs = A.copy()
         A = -1 * np.log(1 - A)
+        threshold_max = -1 * np.log(1 - threshold_max)
     
         m = Model("CIP")
         m.hideOutput(not logging)
@@ -52,16 +58,23 @@ class SCIPModel(OPTCoverageModel, OPTBudgetModel):
 
         min_cov = m.addVar(lb=None) # The coverage at the least covered point
 
-        total_coverage_terms = []
-        for i in rlen(dems):
-            m.addCons(quicksum(A[i, j] * x[j] for j in x) >= min_cov)
-            total_coverage_terms += [A[i, j] * x[j] for j in x]
+        y = {i: m.addVar(vtype='B') for i in rlen(dems)} # i not covered to threshold implies y[i] == 0
 
+        total_coverage_terms = [] # aggregates for average coverage
+        for i in rlen(dems):
+            # push min coverage below this coverage
+            m.addCons(quicksum(A[i, j] * x[j] for j in x) >= min_cov)
+            # add this demand points coverage to the terms
+            total_coverage_terms += [A[i, j] * x[j] for j in x]
+            m.addCons(y[i] <= quicksum(A[i, j] * x[j] for j in x) - threshold_max + 1)
+
+        # Adaptive scalar to avoid numerical issues
         scalar = (2 * m.feastol()) / np.median(np.abs(prrs)[np.abs(prrs) > 0])
     
-        avg_term = scalar * ((1 - min_weight) / len(dems)) * quicksum(total_coverage_terms)
+        avg_term = scalar * ((1 - min_weight - threshold_weight) / len(dems)) * quicksum(total_coverage_terms)
         min_term = scalar * min_weight * min_cov
-        m.setObjective(avg_term + min_term, "maximize")
+        thres_term = scalar * threshold_weight / len(dems) * quicksum(y.values())
+        m.setObjective(avg_term + min_term + thres_term, "maximize")
 
         m.optimize()
 
